@@ -9,18 +9,24 @@
  * Values marked PLACEHOLDER must be replaced before launch.
  */
 
+/**
+ * Declared separately so every other field can interpolate it. Change this one
+ * string and the name propagates through metadata, legal pages, the WhatsApp
+ * prefill and the meta description — nothing repeats it literally.
+ */
+const NAME = "Keyturn Media";
+
 export const BRAND = {
   /** Full public-facing name, used in the logo, metadata and copy. */
-  name: "Keyturn Media",
+  name: NAME,
   /** Short form for tight spaces (mobile nav, favicons, footnotes). */
   shortName: "Keyturn",
-  /** Registered entity name, used in legal pages and the copyright line. */
-  legalName: "Keyturn Media",
+  /** Registered entity name. Often differs from the trading name — set it explicitly. */
+  legalName: NAME,
   /** Three-to-five word positioning line that sits under the logo. */
   tagline: "Real estate growth marketing",
   /** One-sentence description used as the default meta description. */
-  description:
-    "We turn listings into pipeline. Keyturn Media is a growth marketing partner for real estate developers, brokerages and agents — and for brands in every category that want the same discipline applied to their market.",
+  description: `We turn listings into pipeline. ${NAME} is a growth marketing partner for real estate developers, brokerages and agents — and for brands in every category that want the same discipline applied to their market.`,
 
   /** Year the company started trading, used in the footer copyright range. */
   founded: 2024,
@@ -45,8 +51,6 @@ export const BRAND = {
   whatsapp: {
     /** Digits only, including country code, no + or spaces. */
     number: "910000000000", // PLACEHOLDER
-    /** Pre-filled first message. */
-    prefill: "Hi Keyturn Media — I'd like to talk about marketing for my business.",
   },
 
   /** Cal.com / Calendly embed link. Leave empty to hide booking UI. */
@@ -83,8 +87,11 @@ export const telHref = `tel:${BRAND.phone.e164}`;
 
 export const mailtoHref = `mailto:${BRAND.email.general}`;
 
+/** Pre-filled first WhatsApp message. Built from BRAND.name so it follows a rename. */
+export const whatsappPrefill = `Hi ${BRAND.name} — I'd like to talk about marketing for my business.`;
+
 export const whatsappHref = `https://wa.me/${BRAND.whatsapp.number}?text=${encodeURIComponent(
-  BRAND.whatsapp.prefill,
+  whatsappPrefill,
 )}`;
 
 export const addressLines = [

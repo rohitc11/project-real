@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Keyturn Media — website
 
-## Getting Started
+Marketing site for a real estate growth marketing agency. Built with Next.js 16
+(App Router), TypeScript and Tailwind CSS v4.
 
-First, run the development server:
+## Getting started
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env.local   # fill in RESEND_API_KEY before going live
+npm run dev                  # http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Other scripts: `npm run build`, `npm run start`, `npm run lint`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Changing the brand
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The brand is a constant, not a string scattered through components.
 
-## Learn More
+| To change | Edit |
+| --- | --- |
+| Company name, tagline, contact details, socials, address | `src/config/brand.ts` |
+| Colours, fonts, radii, motion | the `:root` block in `src/app/globals.css` |
+| Navigation and footer links | `src/config/site.ts` |
+| Service catalogue | `src/config/services.ts` |
+| Stats, process, case studies, testimonials, FAQs, industries | `src/config/content.ts` |
 
-To learn more about Next.js, take a look at the following resources:
+Nothing outside `src/config/brand.ts` hardcodes the company name. Renaming the
+company is a one-file edit; the logo, metadata, sitemap, JSON-LD, OG image,
+legal pages and every CTA follow automatically.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+The one deliberate exception is `src/app/icon.tsx` and `src/app/opengraph-image.tsx`,
+which repeat the hex values because `next/og` cannot read CSS custom properties.
+Both files say so in a comment.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Architecture
 
-## Deploy on Vercel
+```
+src/config/      brand + content data, the only place copy and constants live
+src/components/
+  brand/         logo and marks
+  layout/        header, footer, floating contact, JSON-LD
+  sections/      composable page sections
+  ui/            container, button, section, scroll reveal
+src/app/         routes, sitemap, robots, generated icon and OG image
+src/lib/         small helpers
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Sections are composed, not duplicated: `ServicesOverview`, `SelectedWork`,
+`ProcessOverview` and `CtaBand` each appear on several pages.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Notes
+
+- Scroll animation uses `IntersectionObserver` and CSS transitions rather than an
+  animation library, and respects `prefers-reduced-motion`.
+- The contact form is a React server action that posts to the Resend REST API.
+  There is no email SDK in the bundle.
+- Case study metrics, testimonials and stats in `src/config/content.ts` are
+  placeholders. Replace them with verified figures before launch.

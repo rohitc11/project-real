@@ -7,6 +7,7 @@ import { SEO } from "@/config/site";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { FloatingContact } from "@/components/layout/FloatingContact";
+import { StructuredData } from "@/components/layout/StructuredData";
 
 const sans = Inter({
   variable: "--font-sans-family",
@@ -70,6 +71,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </main>
         <Footer />
         <FloatingContact />
+        <StructuredData />
       </body>
     </html>
   );
