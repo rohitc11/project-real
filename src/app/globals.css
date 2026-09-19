@@ -1,26 +1,227 @@
 @import "tailwindcss";
 
+/* ==================================================================
+   DESIGN TOKENS
+   Rebranding = change the values in this block. Nothing below :root
+   hardcodes a colour, so every component follows automatically.
+   ================================================================== */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Surfaces, darkest to lightest */
+  --brand-ink: #08080a;
+  --brand-surface: #0e0e11;
+  --brand-surface-2: #141418;
+  --brand-elevated: #1b1b20;
+  --brand-line: #26262d;
+  --brand-line-soft: #1c1c22;
+
+  /* Foreground */
+  --brand-fg: #f3f1ec;
+  --brand-muted: #a3a09a;
+  --brand-subtle: #6f6c67;
+
+  /* Accent — warm champagne, the only saturated colour in the system */
+  --brand-accent: #c6a667;
+  --brand-accent-hi: #e2c891;
+  --brand-accent-ink: #0b0b0d;
+  --brand-accent-glow: rgb(198 166 103 / 0.16);
+
+  /* Feedback */
+  --brand-positive: #7fc8a0;
+  --brand-negative: #e08b7a;
+
+  /* Shape */
+  --brand-radius-xs: 3px;
+  --brand-radius-sm: 6px;
+  --brand-radius-md: 12px;
+  --brand-radius-lg: 20px;
+
+  /* Layout */
+  --brand-gutter: 1.25rem;
+  --brand-max: 76rem;
+
+  /* Motion */
+  --brand-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --brand-duration: 700ms;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-ink: var(--brand-ink);
+  --color-surface: var(--brand-surface);
+  --color-surface-2: var(--brand-surface-2);
+  --color-elevated: var(--brand-elevated);
+  --color-line: var(--brand-line);
+  --color-line-soft: var(--brand-line-soft);
+
+  --color-fg: var(--brand-fg);
+  --color-muted: var(--brand-muted);
+  --color-subtle: var(--brand-subtle);
+
+  --color-accent: var(--brand-accent);
+  --color-accent-hi: var(--brand-accent-hi);
+  --color-accent-ink: var(--brand-accent-ink);
+
+  --font-display: var(--font-display-family), Georgia, "Times New Roman", serif;
+  --font-sans: var(--font-sans-family), ui-sans-serif, system-ui, sans-serif;
+
+  --radius-xs: var(--brand-radius-xs);
+  --radius-sm: var(--brand-radius-sm);
+  --radius-md: var(--brand-radius-md);
+  --radius-lg: var(--brand-radius-lg);
+
+  --ease-brand: var(--brand-ease);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ==================================================================
+   BASE
+   ================================================================== */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  body {
+    background-color: var(--brand-ink);
+    color: var(--brand-fg);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  ::selection {
+    background-color: var(--brand-accent);
+    color: var(--brand-accent-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--brand-accent);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Display type wants tighter tracking and optical sizing */
+  .font-display,
+  h1,
+  h2 {
+    letter-spacing: -0.015em;
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: var(--brand-ink);
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--brand-line);
+    border-radius: 99px;
+    border: 3px solid var(--brand-ink);
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--brand-subtle);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ==================================================================
+   COMPONENT PRIMITIVES
+   Patterns repeated often enough that a class beats copy-pasted utilities.
+   ================================================================== */
+@layer components {
+  /* Small uppercase label that sits above a heading. */
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    font-size: 0.6875rem;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--brand-subtle);
+  }
+
+  .eyebrow::before {
+    content: "";
+    width: 1.75rem;
+    height: 1px;
+    background: linear-gradient(to right, var(--brand-accent), transparent);
+  }
+
+  /* Hairline divider that fades at both ends. */
+  .hairline {
+    height: 1px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      var(--brand-line) 12%,
+      var(--brand-line) 88%,
+      transparent
+    );
+  }
+
+  /* Scroll reveal. Paired with <Reveal>, which flips data-visible. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity var(--brand-duration) var(--brand-ease),
+      transform var(--brand-duration) var(--brand-ease);
+    transition-delay: var(--reveal-delay, 0ms);
+    will-change: opacity, transform;
+  }
+
+  .reveal[data-visible="true"] {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+
+  /* Very fine film grain — adds depth to large dark areas. */
+  .grain::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.035;
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Radial wash used behind hero and CTA sections. */
+  .aura {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(60% 50% at 50% 0%, var(--brand-accent-glow), transparent 70%),
+      radial-gradient(40% 40% at 85% 25%, rgb(255 255 255 / 0.04), transparent 70%);
+  }
+
+  /* Thin top rule used to open editorial sections. */
+  .rule-top {
+    border-top: 1px solid var(--brand-line-soft);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
 }
