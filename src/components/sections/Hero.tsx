@@ -17,7 +17,7 @@ export function Hero() {
       >
         <div className="grid h-full grid-cols-4">
           {Array.from({ length: 4 }).map((_, i) => (
-            <div key={i} className="border-l border-line-soft/60 last:border-r" />
+            <div key={i} className="border-l border-line-soft last:border-r" />
           ))}
         </div>
       </div>

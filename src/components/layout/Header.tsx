@@ -60,7 +60,7 @@ export function Header() {
       className={cn(
         "fixed inset-x-0 top-0 z-50 transition-all duration-500 ease-[var(--brand-ease)]",
         scrolled || menuOpen
-          ? "border-b border-line-soft bg-ink/85 backdrop-blur-xl"
+          ? "border-b border-line-soft bg-[var(--brand-scrim)] backdrop-blur-xl"
           : "border-b border-transparent bg-transparent",
       )}
     >
@@ -115,13 +115,13 @@ export function Header() {
                         : "pointer-events-none translate-y-1 opacity-0",
                     )}
                   >
-                    <div className="overflow-hidden rounded-lg border border-line bg-surface-2/95 p-2 shadow-2xl shadow-black/60 backdrop-blur-xl">
+                    <div className="overflow-hidden rounded-lg border border-line bg-surface p-2 shadow-[0_24px_60px_-24px_var(--brand-shadow-strong)] backdrop-blur-xl">
                       <ul className="grid gap-0.5">
                         {item.children.map((child) => (
                           <li key={child.href}>
                             <Link
                               href={child.href}
-                              className="group flex flex-col gap-0.5 rounded-sm px-3.5 py-2.5 transition-colors duration-200 hover:bg-white/[0.04]"
+                              className="group flex flex-col gap-0.5 rounded-sm px-3.5 py-2.5 transition-colors duration-200 hover:bg-[var(--brand-tint)]"
                             >
                               <span className="text-sm text-fg transition-colors group-hover:text-accent">
                                 {child.label}
@@ -186,7 +186,7 @@ export function Header() {
       <div
         id="mobile-menu"
         className={cn(
-          "overflow-hidden border-t border-line-soft bg-ink/95 backdrop-blur-xl transition-[max-height,opacity] duration-500 ease-[var(--brand-ease)] lg:hidden",
+          "overflow-hidden border-t border-line-soft bg-[var(--brand-scrim)] backdrop-blur-xl transition-[max-height,opacity] duration-500 ease-[var(--brand-ease)] lg:hidden",
           menuOpen ? "max-h-[calc(100dvh-4.5rem)] opacity-100" : "max-h-0 opacity-0",
         )}
       >

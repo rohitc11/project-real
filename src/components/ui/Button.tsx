@@ -11,7 +11,7 @@ const variants: Record<Variant, string> = {
   primary:
     "rounded-full bg-accent text-accent-ink hover:bg-accent-hi hover:shadow-[0_8px_40px_-10px_var(--brand-accent-glow)]",
   outline:
-    "rounded-full border border-line bg-transparent text-fg hover:border-accent/60 hover:bg-white/[0.03]",
+    "rounded-full border border-line bg-transparent text-fg hover:border-accent/60 hover:bg-[var(--brand-tint)]",
   ghost: "rounded-full text-muted hover:text-fg",
 };
 

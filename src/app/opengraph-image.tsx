@@ -1,11 +1,15 @@
 import { ImageResponse } from "next/og";
 import { BRAND } from "@/config/brand";
+import { themeColors } from "@/config/theme";
 
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 export const alt = `${BRAND.name} — ${BRAND.tagline}`;
 
-/** Social share card, generated from BRAND so a rename updates it automatically. */
+/**
+ * Social share card. Both the brand text and the palette are read from config,
+ * so a rename or a theme flip updates it without touching this file.
+ */
 export default function OpengraphImage() {
   return new ImageResponse(
     (
@@ -16,25 +20,49 @@ export default function OpengraphImage() {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          background: "#08080a",
+          background: themeColors.background,
           padding: 72,
           fontFamily: "sans-serif",
         }}
       >
         <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
           <svg width="44" height="44" viewBox="0 0 24 24" fill="none">
-            <circle cx="8" cy="8" r="4.4" stroke="#c6a667" strokeWidth="1.6" />
-            <path d="M11.2 11.2 19.8 19.8" stroke="#c6a667" strokeWidth="1.6" strokeLinecap="round" />
-            <path d="M14.9 14.9 17.3 12.5M17 17l2-2" stroke="#c6a667" strokeWidth="1.6" strokeLinecap="round" />
+            <circle cx="8" cy="8" r="4.4" stroke={themeColors.accent} strokeWidth="1.6" />
+            <path
+              d="M11.2 11.2 19.8 19.8"
+              stroke={themeColors.accent}
+              strokeWidth="1.6"
+              strokeLinecap="round"
+            />
+            <path
+              d="M14.9 14.9 17.3 12.5M17 17l2-2"
+              stroke={themeColors.accent}
+              strokeWidth="1.6"
+              strokeLinecap="round"
+            />
           </svg>
-          <span style={{ fontSize: 34, color: "#f3f1ec" }}>{BRAND.name}</span>
+          <span style={{ fontSize: 34, color: themeColors.foreground }}>{BRAND.name}</span>
         </div>
 
         <div style={{ display: "flex", flexDirection: "column" }}>
-          <span style={{ fontSize: 84, lineHeight: 1.05, color: "#f3f1ec", letterSpacing: -2 }}>
+          <span
+            style={{
+              fontSize: 84,
+              lineHeight: 1.05,
+              color: themeColors.foreground,
+              letterSpacing: -2,
+            }}
+          >
             We turn listings
           </span>
-          <span style={{ fontSize: 84, lineHeight: 1.05, color: "#c6a667", letterSpacing: -2 }}>
+          <span
+            style={{
+              fontSize: 84,
+              lineHeight: 1.05,
+              color: themeColors.accent,
+              letterSpacing: -2,
+            }}
+          >
             into pipeline.
           </span>
         </div>
@@ -43,10 +71,10 @@ export default function OpengraphImage() {
           style={{
             display: "flex",
             justifyContent: "space-between",
-            borderTop: "1px solid #26262d",
+            borderTop: `1px solid ${themeColors.line}`,
             paddingTop: 28,
             fontSize: 22,
-            color: "#6f6c67",
+            color: themeColors.subtle,
             letterSpacing: 2,
             textTransform: "uppercase",
           }}

@@ -20,6 +20,7 @@ The brand is a constant, not a string scattered through components.
 | To change | Edit |
 | --- | --- |
 | Company name, tagline, contact details, socials, address | `src/config/brand.ts` |
+| Light or dark theme | `THEME` in `src/config/theme.ts` |
 | Colours, fonts, radii, motion | the `:root` block in `src/app/globals.css` |
 | Navigation and footer links | `src/config/site.ts` |
 | Service catalogue | `src/config/services.ts` |
@@ -29,9 +30,27 @@ Nothing outside `src/config/brand.ts` hardcodes the company name. Renaming the
 company is a one-file edit; the logo, metadata, sitemap, JSON-LD, OG image,
 legal pages and every CTA follow automatically.
 
-The one deliberate exception is `src/app/icon.tsx` and `src/app/opengraph-image.tsx`,
-which repeat the hex values because `next/og` cannot read CSS custom properties.
-Both files say so in a comment.
+## Theming
+
+The site ships two complete palettes. Light is the default `:root` set in
+`globals.css`; dark lives under `[data-theme="dark"]` in the same file. Flipping
+`THEME` in `src/config/theme.ts` writes the attribute onto `<html>` and switches
+everything — including the `theme-color` meta tag, the generated favicon and the
+OG card.
+
+Components never reference a white or black literal. Effects that have to differ
+between themes go through semantic tokens instead: `--brand-tint` for hover
+overlays, `--brand-shadow` / `--brand-shadow-strong` for elevation,
+`--brand-scrim` for the translucent header, `--brand-aura-*` for the section
+washes, and `--brand-grain-blend` / `--brand-grain-opacity` for the paper
+texture.
+
+`src/config/theme.ts` mirrors a handful of hex values because `next/og` renders
+outside the browser and cannot read CSS custom properties. That file is the only
+place any colour is duplicated, and it says so in a comment.
+
+The light palette was checked against WCAG AA: every text token clears 4.5:1 on
+the page background, on cards and on the hover surface.
 
 ## Architecture
 

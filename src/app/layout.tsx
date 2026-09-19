@@ -4,6 +4,7 @@ import "./globals.css";
 
 import { BRAND } from "@/config/brand";
 import { SEO } from "@/config/site";
+import { THEME, themeColors } from "@/config/theme";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { FloatingContact } from "@/components/layout/FloatingContact";
@@ -51,13 +52,17 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#08080a",
-  colorScheme: "dark",
+  themeColor: themeColors.background,
+  colorScheme: THEME,
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${sans.variable} ${display.variable} h-full`}>
+    <html
+      lang="en"
+      data-theme={THEME}
+      className={`${sans.variable} ${display.variable} h-full`}
+    >
       <body className="flex min-h-full flex-col bg-ink text-fg">
         <a
           href="#main"

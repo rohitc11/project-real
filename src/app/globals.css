@@ -1,33 +1,48 @@
 @import "tailwindcss";
 
 /* ==================================================================
-   DESIGN TOKENS
+   DESIGN TOKENS — LIGHT (default)
    Rebranding = change the values in this block. Nothing below :root
    hardcodes a colour, so every component follows automatically.
+   The dark palette is preserved further down under [data-theme="dark"];
+   flip between them with THEME in src/config/theme.ts.
    ================================================================== */
 :root {
-  /* Surfaces, darkest to lightest */
-  --brand-ink: #08080a;
-  --brand-surface: #0e0e11;
-  --brand-surface-2: #141418;
-  --brand-elevated: #1b1b20;
-  --brand-line: #26262d;
-  --brand-line-soft: #1c1c22;
+  /* Surfaces, page backdrop first */
+  --brand-ink: #faf9f7;
+  --brand-surface: #ffffff;
+  --brand-surface-2: #f2efe9;
+  --brand-elevated: #ffffff;
+  --brand-line: #cec7ba;
+  --brand-line-soft: #e0dbd1;
 
-  /* Foreground */
-  --brand-fg: #f3f1ec;
-  --brand-muted: #a3a09a;
-  --brand-subtle: #6f6c67;
+  /* Foreground — warm near-black, not pure grey */
+  --brand-fg: #15140f;
+  --brand-muted: #5c594f;
+  --brand-subtle: #6f6a61;
 
-  /* Accent — warm champagne, the only saturated colour in the system */
-  --brand-accent: #c6a667;
-  --brand-accent-hi: #e2c891;
-  --brand-accent-ink: #0b0b0d;
-  --brand-accent-glow: rgb(198 166 103 / 0.16);
+  /* Accent — deep bronze, the only saturated colour in the system.
+     Dark enough to clear 4.5:1 against the bone backdrop. */
+  --brand-accent: #8a6320;
+  --brand-accent-hi: #6d4d17;
+  --brand-accent-ink: #fffdf8;
+  --brand-accent-glow: rgb(138 99 32 / 0.18);
 
   /* Feedback */
-  --brand-positive: #7fc8a0;
-  --brand-negative: #e08b7a;
+  --brand-positive: #2f6b4a;
+  --brand-negative: #a33a22;
+
+  /* Semantic effects — these differ per theme, so components reference the
+     token rather than a white or black literal. */
+  --brand-tint: rgb(21 20 15 / 0.035);
+  --brand-tint-strong: rgb(21 20 15 / 0.06);
+  --brand-shadow: rgb(21 20 15 / 0.07);
+  --brand-shadow-strong: rgb(21 20 15 / 0.13);
+  --brand-aura-1: rgb(138 99 32 / 0.09);
+  --brand-aura-2: rgb(21 20 15 / 0.035);
+  --brand-grain-blend: multiply;
+  --brand-grain-opacity: 0.045;
+  --brand-scrim: rgb(250 249 247 / 0.86);
 
   /* Shape */
   --brand-radius-xs: 3px;
@@ -42,6 +57,44 @@
   /* Motion */
   --brand-ease: cubic-bezier(0.22, 1, 0.36, 1);
   --brand-duration: 700ms;
+
+  color-scheme: light;
+}
+
+/* ==================================================================
+   DESIGN TOKENS — DARK
+   ================================================================== */
+[data-theme="dark"] {
+  --brand-ink: #08080a;
+  --brand-surface: #0e0e11;
+  --brand-surface-2: #141418;
+  --brand-elevated: #1b1b20;
+  --brand-line: #26262d;
+  --brand-line-soft: #1c1c22;
+
+  --brand-fg: #f3f1ec;
+  --brand-muted: #a3a09a;
+  --brand-subtle: #6f6c67;
+
+  --brand-accent: #c6a667;
+  --brand-accent-hi: #e2c891;
+  --brand-accent-ink: #0b0b0d;
+  --brand-accent-glow: rgb(198 166 103 / 0.16);
+
+  --brand-positive: #7fc8a0;
+  --brand-negative: #e08b7a;
+
+  --brand-tint: rgb(255 255 255 / 0.035);
+  --brand-tint-strong: rgb(255 255 255 / 0.06);
+  --brand-shadow: rgb(0 0 0 / 0.5);
+  --brand-shadow-strong: rgb(0 0 0 / 0.7);
+  --brand-aura-1: rgb(198 166 103 / 0.16);
+  --brand-aura-2: rgb(255 255 255 / 0.04);
+  --brand-grain-blend: overlay;
+  --brand-grain-opacity: 0.035;
+  --brand-scrim: rgb(8 8 10 / 0.85);
+
+  color-scheme: dark;
 }
 
 @theme inline {
@@ -190,25 +243,25 @@
     }
   }
 
-  /* Very fine film grain — adds depth to large dark areas. */
+  /* Very fine paper grain — keeps large flat areas from looking plastic. */
   .grain::after {
     content: "";
     position: absolute;
     inset: 0;
     pointer-events: none;
-    opacity: 0.035;
-    mix-blend-mode: overlay;
+    opacity: var(--brand-grain-opacity);
+    mix-blend-mode: var(--brand-grain-blend);
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
   }
 
-  /* Radial wash used behind hero and CTA sections. */
+  /* Soft wash used behind hero and CTA sections. */
   .aura {
     position: absolute;
     inset: 0;
     pointer-events: none;
     background:
-      radial-gradient(60% 50% at 50% 0%, var(--brand-accent-glow), transparent 70%),
-      radial-gradient(40% 40% at 85% 25%, rgb(255 255 255 / 0.04), transparent 70%);
+      radial-gradient(60% 50% at 50% 0%, var(--brand-aura-1), transparent 70%),
+      radial-gradient(40% 40% at 85% 25%, var(--brand-aura-2), transparent 70%);
   }
 
   /* Thin top rule used to open editorial sections. */
