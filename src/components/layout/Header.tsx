@@ -18,7 +18,7 @@ export function Header() {
   const pathname = usePathname();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 12);
+    const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -33,7 +33,6 @@ export function Header() {
     setOpenDropdown(null);
   }
 
-  // Lock scroll behind the mobile overlay.
   useEffect(() => {
     document.body.style.overflow = menuOpen ? "hidden" : "";
     return () => {
@@ -58,18 +57,17 @@ export function Header() {
   return (
     <header
       className={cn(
-        "fixed inset-x-0 top-0 z-50 transition-all duration-500 ease-[var(--brand-ease)]",
+        "fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300",
         scrolled || menuOpen
-          ? "border-b border-line-soft bg-[var(--brand-scrim)] backdrop-blur-xl"
-          : "border-b border-transparent bg-transparent",
+          ? "border-line bg-[var(--brand-scrim)] backdrop-blur-md"
+          : "border-transparent bg-transparent",
       )}
     >
-      <Container className="flex h-[4.5rem] items-center justify-between gap-6 lg:h-20">
+      <Container className="flex h-16 items-center justify-between gap-6 lg:h-[4.5rem]">
         <Logo />
 
-        {/* Desktop navigation */}
         <nav aria-label="Primary" className="hidden lg:block">
-          <ul className="flex items-center gap-1">
+          <ul className="flex items-center">
             {NAV.map((item) => (
               <li
                 key={item.href}
@@ -81,27 +79,16 @@ export function Header() {
                   href={item.href}
                   aria-expanded={item.children ? openDropdown === item.href : undefined}
                   className={cn(
-                    "inline-flex items-center gap-1.5 rounded-full px-4 py-2 text-sm transition-colors duration-300",
-                    isActive(item.href) ? "text-fg" : "text-muted hover:text-fg",
+                    "type-note inline-flex items-center gap-2 px-4 py-2.5 transition-colors duration-300",
+                    isActive(item.href)
+                      ? "text-accent-deep"
+                      : "text-muted hover:text-ink",
                   )}
                 >
                   {item.label}
                   {item.children && (
-                    <svg
-                      viewBox="0 0 10 6"
-                      className={cn(
-                        "size-2 transition-transform duration-300",
-                        openDropdown === item.href && "rotate-180",
-                      )}
-                      aria-hidden="true"
-                    >
-                      <path
-                        d="M1 1l4 4 4-4"
-                        stroke="currentColor"
-                        strokeWidth="1.4"
-                        fill="none"
-                        strokeLinecap="round"
-                      />
+                    <svg viewBox="0 0 8 5" className="size-1.5" aria-hidden="true">
+                      <path d="M0 0h8L4 5Z" fill="currentColor" />
                     </svg>
                   )}
                 </Link>
@@ -109,28 +96,38 @@ export function Header() {
                 {item.children && (
                   <div
                     className={cn(
-                      "absolute left-1/2 top-full w-[30rem] -translate-x-1/2 pt-3 transition-all duration-300 ease-[var(--brand-ease)]",
+                      "absolute right-0 top-full w-[27rem] pt-2 transition-opacity duration-200",
                       openDropdown === item.href
-                        ? "pointer-events-auto translate-y-0 opacity-100"
-                        : "pointer-events-none translate-y-1 opacity-0",
+                        ? "pointer-events-auto opacity-100"
+                        : "pointer-events-none opacity-0",
                     )}
                   >
-                    <div className="overflow-hidden rounded-lg border border-line bg-surface p-2 shadow-[0_24px_60px_-24px_var(--brand-shadow-strong)] backdrop-blur-xl">
-                      <ul className="grid gap-0.5">
-                        {item.children.map((child) => (
+                    {/* The services menu is itself a drawing schedule. */}
+                    <div className="border border-ink bg-paper shadow-[0_18px_44px_-24px_var(--brand-shadow-strong)]">
+                      <div className="type-note flex justify-between border-b border-line px-4 py-2.5 text-muted">
+                        <span>Scope of work</span>
+                        <span>Sheet</span>
+                      </div>
+                      <ul>
+                        {item.children.map((child, index) => (
                           <li key={child.href}>
                             <Link
                               href={child.href}
-                              className="group flex flex-col gap-0.5 rounded-sm px-3.5 py-2.5 transition-colors duration-200 hover:bg-[var(--brand-tint)]"
+                              className="group flex items-baseline justify-between gap-5 border-b border-line-soft px-4 py-3 transition-colors duration-200 last:border-b-0 hover:bg-[var(--brand-tint)]"
                             >
-                              <span className="text-sm text-fg transition-colors group-hover:text-accent">
-                                {child.label}
-                              </span>
-                              {child.description && (
-                                <span className="text-xs leading-snug text-subtle">
-                                  {child.description}
+                              <span className="min-w-0">
+                                <span className="block text-sm font-semibold text-ink transition-colors group-hover:text-accent-deep">
+                                  {child.label}
                                 </span>
-                              )}
+                                {child.description && (
+                                  <span className="mt-1 block text-xs leading-snug text-muted">
+                                    {child.description}
+                                  </span>
+                                )}
+                              </span>
+                              <span className="type-note shrink-0 text-muted">
+                                A-{String(index + 1).padStart(2, "0")}
+                              </span>
                             </Link>
                           </li>
                         ))}
@@ -143,11 +140,8 @@ export function Header() {
           </ul>
         </nav>
 
-        <div className="hidden items-center gap-3 lg:flex">
-          <a
-            href={telHref}
-            className="text-sm text-muted transition-colors hover:text-fg"
-          >
+        <div className="hidden items-center gap-5 lg:flex">
+          <a href={telHref} className="type-data text-[0.8125rem] text-muted transition-colors hover:text-ink">
             {BRAND.phone.display}
           </a>
           <Button href={PRIMARY_CTA.href} size="sm">
@@ -156,25 +150,24 @@ export function Header() {
           </Button>
         </div>
 
-        {/* Mobile trigger */}
         <button
           type="button"
           onClick={() => setMenuOpen((open) => !open)}
           aria-expanded={menuOpen}
           aria-controls="mobile-menu"
           aria-label={menuOpen ? "Close menu" : "Open menu"}
-          className="-mr-2 flex size-11 items-center justify-center rounded-full text-fg lg:hidden"
+          className="-mr-2 flex size-11 items-center justify-center text-ink lg:hidden"
         >
           <span className="relative block h-3 w-5">
             <span
               className={cn(
-                "absolute left-0 block h-px w-full bg-current transition-all duration-300 ease-[var(--brand-ease)]",
+                "absolute left-0 block h-px w-full bg-current transition-all duration-300",
                 menuOpen ? "top-1.5 rotate-45" : "top-0",
               )}
             />
             <span
               className={cn(
-                "absolute left-0 block h-px w-full bg-current transition-all duration-300 ease-[var(--brand-ease)]",
+                "absolute left-0 block h-px w-full bg-current transition-all duration-300",
                 menuOpen ? "top-1.5 -rotate-45" : "top-3",
               )}
             />
@@ -182,27 +175,26 @@ export function Header() {
         </button>
       </Container>
 
-      {/* Mobile overlay */}
       <div
         id="mobile-menu"
         className={cn(
-          "overflow-hidden border-t border-line-soft bg-[var(--brand-scrim)] backdrop-blur-xl transition-[max-height,opacity] duration-500 ease-[var(--brand-ease)] lg:hidden",
-          menuOpen ? "max-h-[calc(100dvh-4.5rem)] opacity-100" : "max-h-0 opacity-0",
+          "overflow-hidden border-t border-line bg-[var(--brand-scrim)] backdrop-blur-md transition-[max-height,opacity] duration-400 lg:hidden",
+          menuOpen ? "max-h-[calc(100dvh-4rem)] opacity-100" : "max-h-0 opacity-0",
         )}
       >
-        <Container className="max-h-[calc(100dvh-4.5rem)] overflow-y-auto py-6">
+        <Container className="max-h-[calc(100dvh-4rem)] overflow-y-auto py-2">
           <nav aria-label="Mobile">
-            <ul className="flex flex-col">
-              {NAV.map((item) => (
+            <ul>
+              {NAV.map((item, index) => (
                 <li key={item.href} className="border-b border-line-soft py-1">
-                  <Link
-                    href={item.href}
-                    className="block py-3 font-display text-2xl text-fg"
-                  >
-                    {item.label}
+                  <Link href={item.href} className="flex items-baseline gap-4 py-3">
+                    <span className="type-note text-accent-deep">
+                      {String(index + 1).padStart(2, "0")}
+                    </span>
+                    <span className="type-title text-xl">{item.label}</span>
                   </Link>
                   {item.children && (
-                    <ul className="mb-3 flex flex-col gap-2 pl-1">
+                    <ul className="mb-3 flex flex-col gap-2 pl-[2.375rem]">
                       {item.children.map((child) => (
                         <li key={child.href}>
                           <Link href={child.href} className="text-sm text-muted">
@@ -217,7 +209,7 @@ export function Header() {
             </ul>
           </nav>
 
-          <div className="mt-8 flex flex-col gap-3 pb-4">
+          <div className="flex flex-col gap-2 py-6">
             <Button href={PRIMARY_CTA.href} size="lg" className="w-full">
               {PRIMARY_CTA.label}
               <ArrowRight />

@@ -1,42 +1,41 @@
 /**
  * THEME SWITCH.
  *
- * Both palettes live in `src/app/globals.css`. Light is the default `:root`
- * set; dark is defined under `[data-theme="dark"]`. Changing this one value
- * flips the entire site — the layout writes it onto <html>.
+ * The site's visual direction is "Site Plan" — the page is organised like an
+ * architectural drawing set. Light is paper; dark is blueprint. Both palettes
+ * live in `src/app/globals.css`; changing this one value flips the whole site.
  */
 export const THEME: "light" | "dark" = "light";
 
 /**
  * A small mirror of the palette for `next/og`, which renders outside the
  * browser and therefore cannot read CSS custom properties. These are the only
- * colour values duplicated anywhere; keep them in sync with the matching block
- * in globals.css.
+ * colour values duplicated anywhere; keep them in sync with globals.css.
  */
 export const THEME_COLORS = {
   light: {
-    background: "#faf9f7",
-    surface: "#ffffff",
-    foreground: "#15140f",
-    muted: "#5c594f",
-    subtle: "#6f6a61",
-    line: "#cec7ba",
-    accent: "#8a6320",
+    background: "#e9ece6",
+    paper: "#f2f4ef",
+    foreground: "#16261e",
+    muted: "#515d54",
+    line: "#c1cabd",
+    accent: "#c2471a",
+    accentInk: "#ffffff",
     /* The favicon keeps a dark tile in both themes so it stays legible
        against light and dark browser chrome alike. */
-    iconBackground: "#15140f",
-    iconMark: "#c6a667",
+    iconBackground: "#16261e",
+    iconMark: "#e06a33",
   },
   dark: {
-    background: "#08080a",
-    surface: "#0e0e11",
-    foreground: "#f3f1ec",
-    muted: "#a3a09a",
-    subtle: "#6f6c67",
-    line: "#26262d",
-    accent: "#c6a667",
-    iconBackground: "#08080a",
-    iconMark: "#c6a667",
+    background: "#0b1a24",
+    paper: "#102431",
+    foreground: "#e3edf3",
+    muted: "#8ea7b5",
+    line: "#23394a",
+    accent: "#f2794c",
+    accentInk: "#0b1a24",
+    iconBackground: "#0b1a24",
+    iconMark: "#f2794c",
   },
 } as const;
 

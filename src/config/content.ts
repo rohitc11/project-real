@@ -189,3 +189,26 @@ export const FAQS: Faq[] = [
       "Three months. Anything shorter does not give the testing cycle enough runway to produce results worth reporting.",
   },
 ];
+
+export type Dimension = {
+  caption: string;
+  value: string;
+  /** 0–1. Sets the drawn length so the comparison is to scale. */
+  fraction?: number;
+  emphasis?: boolean;
+};
+
+/**
+ * Measured before/after comparisons, drawn as dimension lines. Only use this
+ * shape for claims that genuinely have a unit and a baseline — the device
+ * loses its meaning the moment it decorates something unmeasured.
+ */
+export const RESPONSE_TIME: Dimension[] = [
+  { caption: "Enquiry → callback", value: "11 h 20 m", fraction: 1 },
+  { caption: "After rebuild", value: "4 m", fraction: 0.06, emphasis: true },
+];
+
+export const SPEND_EFFICIENCY: Dimension[] = [
+  { caption: "Cost / site visit", value: "₹23,400", fraction: 1 },
+  { caption: "After 90 days", value: "₹13,762", fraction: 0.59, emphasis: true },
+];

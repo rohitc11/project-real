@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function TermsPage() {
   return (
-    <LegalPage title="Terms of use" updated="September 2026">
+    <LegalPage sheet="Z-02" title="Terms of use" updated="September 2026">
       <h2>Acceptance</h2>
       <p>
         By using this website you agree to these terms. If you do not agree, please stop

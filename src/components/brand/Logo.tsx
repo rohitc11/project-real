@@ -8,26 +8,24 @@ import { cn } from "@/lib/cn";
  */
 export function LogoMark({ className }: { className?: string }) {
   return (
-    <svg
-      viewBox="0 0 24 24"
-      fill="none"
+    <span
+      className={cn(
+        "inline-flex size-7 shrink-0 items-center justify-center border border-ink text-accent",
+        className,
+      )}
       aria-hidden="true"
-      className={cn("size-[1.35em] shrink-0 text-accent", className)}
     >
-      <circle cx="8" cy="8" r="4.4" stroke="currentColor" strokeWidth="1.5" />
-      <path
-        d="M11.2 11.2 19.8 19.8"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-      <path
-        d="M14.9 14.9 17.3 12.5M17 17l2-2"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-      />
-    </svg>
+      <svg viewBox="0 0 24 24" fill="none" className="size-[1.05rem]">
+        <circle cx="8.5" cy="8.5" r="4" stroke="currentColor" strokeWidth="1.6" />
+        <path d="M11.4 11.4 19.5 19.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="square" />
+        <path
+          d="M14.8 14.8 17 12.6M16.9 16.9 18.8 15"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinecap="square"
+        />
+      </svg>
+    </span>
   );
 }
 
@@ -41,16 +39,14 @@ export function Logo({
   href?: string | null;
 }) {
   const content = (
-    <span className={cn("inline-flex items-center gap-2.5", className)}>
+    <span className={cn("inline-flex items-center gap-3", className)}>
       <LogoMark />
       <span className="flex flex-col leading-none">
-        <span className="font-display text-[1.375rem] tracking-[-0.01em] text-fg">
+        <span className="type-title text-[1.0625rem] uppercase tracking-[0.02em] text-ink">
           {BRAND.name}
         </span>
         {showTagline && (
-          <span className="mt-1.5 text-[0.625rem] uppercase tracking-[0.2em] text-subtle">
-            {BRAND.tagline}
-          </span>
+          <span className="type-note mt-2 text-muted">{BRAND.tagline}</span>
         )}
       </span>
     </span>
@@ -62,7 +58,7 @@ export function Logo({
     <Link
       href={href}
       aria-label={`${BRAND.name} — home`}
-      className="inline-flex rounded-sm transition-opacity duration-300 hover:opacity-80"
+      className="inline-flex transition-opacity duration-300 hover:opacity-70"
     >
       {content}
     </Link>

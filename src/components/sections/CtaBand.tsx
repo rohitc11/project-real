@@ -4,33 +4,36 @@ import { Reveal } from "@/components/ui/Reveal";
 import { BRAND, whatsappHref } from "@/config/brand";
 import { PRIMARY_CTA } from "@/config/site";
 
+/**
+ * Closing call to action, framed as a request for information — the document a
+ * contractor actually sends when they need an answer before they can proceed.
+ */
 export function CtaBand({
   heading = "Let's look at your funnel",
-  body = "Send us the account access and a month of lead data. The first call is a diagnosis, not a pitch — you leave with the three things costing you the most, whether or not you hire us.",
+  body = "Send account access and a month of lead data before the call. You leave it with the three things costing you the most, whether or not you hire us.",
 }: {
   heading?: string;
   body?: string;
 }) {
   return (
-    <section className="grain relative overflow-hidden border-t border-line-soft bg-surface py-24 sm:py-32">
-      <div className="aura" aria-hidden="true" />
+    <section className="survey-grid relative overflow-hidden border-t border-ink">
+      <Container className="relative py-16 sm:py-24">
+        <Reveal>
+          <div className="corner-ticks border border-ink bg-ground p-7 sm:p-12">
+            <div className="type-note flex flex-wrap justify-between gap-x-7 gap-y-2 border-b border-line pb-3 text-muted">
+              <span>Request for information</span>
+              <span>Response within one working day</span>
+            </div>
 
-      <Container className="relative">
-        <div className="mx-auto max-w-3xl text-center">
-          <Reveal>
-            <h2 className="font-display text-[clamp(2.25rem,6vw,4.5rem)] leading-[1] text-balance">
+            <h2 className="type-display mt-8 max-w-[16ch] text-[clamp(2rem,5.4vw,4rem)]">
               {heading}
             </h2>
-          </Reveal>
 
-          <Reveal delay={100}>
-            <p className="mx-auto mt-7 max-w-xl text-base leading-relaxed text-muted text-pretty sm:text-lg">
+            <p className="mt-6 max-w-[54ch] text-[0.9375rem] leading-relaxed text-muted text-pretty sm:text-base">
               {body}
             </p>
-          </Reveal>
 
-          <Reveal delay={180}>
-            <div className="mt-11 flex flex-wrap items-center justify-center gap-3">
+            <div className="mt-10 flex flex-wrap items-center gap-3">
               <Button href={PRIMARY_CTA.href} size="lg">
                 {PRIMARY_CTA.label}
                 <ArrowRight />
@@ -39,14 +42,14 @@ export function CtaBand({
                 Message on WhatsApp
               </Button>
             </div>
-          </Reveal>
 
-          <Reveal delay={240}>
-            <p className="mt-8 text-xs uppercase tracking-[0.14em] text-subtle">
-              {BRAND.address.city} · {BRAND.email.general}
-            </p>
-          </Reveal>
-        </div>
+            <div className="type-note mt-10 flex flex-wrap gap-x-7 gap-y-2 border-t border-line pt-4 text-muted">
+              <span>{BRAND.address.city}</span>
+              <span>{BRAND.email.general}</span>
+              <span>{BRAND.phone.display}</span>
+            </div>
+          </div>
+        </Reveal>
       </Container>
     </section>
   );

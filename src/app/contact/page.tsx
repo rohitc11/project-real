@@ -5,7 +5,7 @@ import { ContactForm } from "@/components/sections/ContactForm";
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
 import { Section } from "@/components/ui/Section";
-import { TextLink } from "@/components/ui/Button";
+import { NoteLink } from "@/components/ui/Button";
 import {
   BRAND,
   addressLines,
@@ -24,6 +24,7 @@ export default function ContactPage() {
   return (
     <>
       <PageHero
+        sheet="G-00"
         eyebrow="Contact"
         title={
           <>
@@ -45,15 +46,15 @@ export default function ContactPage() {
                 <h2 className="eyebrow">Prefer to talk</h2>
                 <ul className="mt-6 flex flex-col gap-3 text-sm">
                   <li>
-                    <TextLink href={whatsappHref}>WhatsApp us</TextLink>
+                    <NoteLink href={whatsappHref}>WhatsApp us</NoteLink>
                   </li>
                   <li>
-                    <a href={telHref} className="text-muted transition-colors hover:text-fg">
+                    <a href={telHref} className="text-muted transition-colors hover:text-ink">
                       {BRAND.phone.display}
                     </a>
                   </li>
                   <li>
-                    <a href={mailtoHref} className="text-muted transition-colors hover:text-fg">
+                    <a href={mailtoHref} className="text-muted transition-colors hover:text-ink">
                       {BRAND.email.general}
                     </a>
                   </li>
@@ -66,7 +67,7 @@ export default function ContactPage() {
                   Pitches, RFPs and partnership enquiries:{" "}
                   <a
                     href={`mailto:${BRAND.email.newBusiness}`}
-                    className="text-accent transition-colors hover:text-accent-hi"
+                    className="text-accent transition-colors hover:text-accent-deep"
                   >
                     {BRAND.email.newBusiness}
                   </a>
@@ -89,9 +90,9 @@ export default function ContactPage() {
       </Container>
 
       {BRAND.booking.url && (
-        <Section eyebrow="Or book directly" heading={BRAND.booking.label} rule>
+        <Section sheet="G-01" eyebrow="Booking" heading={BRAND.booking.label}>
           <Reveal>
-            <div className="overflow-hidden rounded-md border border-line-soft bg-surface">
+            <div className="overflow-hidden border border-line-soft bg-paper">
               <iframe
                 src={BRAND.booking.url}
                 title={BRAND.booking.label}
@@ -103,12 +104,12 @@ export default function ContactPage() {
         </Section>
       )}
 
-      <Section eyebrow="Questions" heading="Before you write" containerSize="narrow" rule>
+      <Section sheet="G-02" eyebrow="Questions" heading="Before you write" containerSize="narrow">
         <dl className="rule-top">
           {FAQS.map((faq, index) => (
             <Reveal key={faq.question} delay={index * 50}>
               <div className="border-b border-line-soft py-7">
-                <dt className="font-display text-xl leading-snug text-fg text-pretty">
+                <dt className="type-title text-xl text-ink text-pretty">
                   {faq.question}
                 </dt>
                 <dd className="mt-3 text-sm leading-relaxed text-muted text-pretty">

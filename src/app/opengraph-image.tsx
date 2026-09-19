@@ -7,10 +7,18 @@ export const contentType = "image/png";
 export const alt = `${BRAND.name} — ${BRAND.tagline}`;
 
 /**
- * Social share card. Both the brand text and the palette are read from config,
- * so a rename or a theme flip updates it without touching this file.
+ * Social share card, laid out as a drawing sheet: metadata strip along the
+ * top, title in the field, title block along the bottom. Text and palette both
+ * come from config, so a rename or a theme flip updates it automatically.
  */
 export default function OpengraphImage() {
+  const note = {
+    fontSize: 21,
+    letterSpacing: 3,
+    textTransform: "uppercase" as const,
+    color: themeColors.muted,
+  };
+
   return new ImageResponse(
     (
       <div
@@ -19,51 +27,51 @@ export default function OpengraphImage() {
           height: "100%",
           display: "flex",
           flexDirection: "column",
-          justifyContent: "space-between",
           background: themeColors.background,
-          padding: 72,
           fontFamily: "sans-serif",
+          color: themeColors.foreground,
         }}
       >
-        <div style={{ display: "flex", alignItems: "center", gap: 16 }}>
-          <svg width="44" height="44" viewBox="0 0 24 24" fill="none">
-            <circle cx="8" cy="8" r="4.4" stroke={themeColors.accent} strokeWidth="1.6" />
-            <path
-              d="M11.2 11.2 19.8 19.8"
-              stroke={themeColors.accent}
-              strokeWidth="1.6"
-              strokeLinecap="round"
-            />
-            <path
-              d="M14.9 14.9 17.3 12.5M17 17l2-2"
-              stroke={themeColors.accent}
-              strokeWidth="1.6"
-              strokeLinecap="round"
-            />
-          </svg>
-          <span style={{ fontSize: 34, color: themeColors.foreground }}>{BRAND.name}</span>
+        <div
+          style={{
+            display: "flex",
+            gap: 48,
+            padding: "26px 64px",
+            borderBottom: `1px solid ${themeColors.line}`,
+            ...note,
+          }}
+        >
+          <span>Sheet 01</span>
+          <span>Scale 1:200</span>
+          <span>Rev C</span>
+          <span>{BRAND.address.city}</span>
         </div>
 
-        <div style={{ display: "flex", flexDirection: "column" }}>
-          <span
-            style={{
-              fontSize: 84,
-              lineHeight: 1.05,
-              color: themeColors.foreground,
-              letterSpacing: -2,
-            }}
-          >
-            We turn listings
+        <div
+          style={{
+            flex: 1,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            padding: "0 64px",
+          }}
+        >
+          <span style={{ ...note, color: themeColors.accent, marginBottom: 26 }}>
+            {BRAND.tagline}
+          </span>
+          <span style={{ fontSize: 96, lineHeight: 1, letterSpacing: -3, fontWeight: 800 }}>
+            Plotted to the
           </span>
           <span
             style={{
-              fontSize: 84,
+              fontSize: 96,
               lineHeight: 1.05,
+              letterSpacing: -3,
+              fontWeight: 800,
               color: themeColors.accent,
-              letterSpacing: -2,
             }}
           >
-            into pipeline.
+            site visit.
           </span>
         </div>
 
@@ -71,16 +79,14 @@ export default function OpengraphImage() {
           style={{
             display: "flex",
             justifyContent: "space-between",
+            padding: "26px 64px",
             borderTop: `1px solid ${themeColors.line}`,
-            paddingTop: 28,
-            fontSize: 22,
-            color: themeColors.subtle,
-            letterSpacing: 2,
-            textTransform: "uppercase",
+            ...note,
+            color: themeColors.foreground,
           }}
         >
-          <span>{BRAND.tagline}</span>
-          <span>{BRAND.domain}</span>
+          <span>{BRAND.name}</span>
+          <span style={{ color: themeColors.muted }}>{BRAND.domain}</span>
         </div>
       </div>
     ),

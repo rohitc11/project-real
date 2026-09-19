@@ -4,69 +4,66 @@ import { cn } from "@/lib/cn";
 
 type SectionProps = {
   children: React.ReactNode;
-  /** Small uppercase label above the heading. */
+  /** Drawing reference, e.g. "A-02". Encodes the sheet this section is on. */
+  sheet?: string;
   eyebrow?: string;
   heading?: React.ReactNode;
-  /** Supporting paragraph under the heading. */
   intro?: React.ReactNode;
   id?: string;
   className?: string;
   containerSize?: "default" | "wide" | "narrow";
-  /** Draws the fading top rule that opens most sections. */
-  rule?: boolean;
-  align?: "left" | "center";
 };
 
+/**
+ * Sections are laid out as a drawing would be: a narrow annotation column on
+ * the left carrying the sheet reference and label, the drawing itself on the
+ * right. The rule above each section is the sheet division.
+ */
 export function Section({
   children,
+  sheet,
   eyebrow,
   heading,
   intro,
   id,
   className,
   containerSize = "default",
-  rule = true,
-  align = "left",
 }: SectionProps) {
-  const hasHeader = Boolean(eyebrow || heading || intro);
+  const hasHeader = Boolean(sheet || eyebrow || heading || intro);
 
   return (
-    <section id={id} className={cn("relative py-20 sm:py-28 lg:py-36", className)}>
+    <section id={id} className={cn("relative border-t border-line", className)}>
       <Container size={containerSize}>
-        {rule && <div className="hairline mb-14 sm:mb-20" />}
-
         {hasHeader && (
-          <header
-            className={cn(
-              "mb-14 sm:mb-20",
-              align === "center" && "mx-auto max-w-2xl text-center",
-            )}
-          >
-            {eyebrow && (
-              <Reveal>
-                <p className={cn("eyebrow", align === "center" && "justify-center")}>
-                  {eyebrow}
-                </p>
-              </Reveal>
-            )}
-            {heading && (
-              <Reveal delay={80}>
-                <h2 className="mt-5 font-display text-[clamp(2rem,4.5vw,3.5rem)] leading-[1.05] text-balance">
-                  {heading}
-                </h2>
-              </Reveal>
-            )}
-            {intro && (
-              <Reveal delay={150}>
-                <div className="mt-6 max-w-2xl text-base leading-relaxed text-muted text-pretty sm:text-lg">
-                  {intro}
-                </div>
-              </Reveal>
-            )}
+          <header className="grid gap-x-10 gap-y-6 pb-12 pt-12 sm:pt-16 lg:grid-cols-[10rem_1fr] lg:pb-16">
+            <Reveal>
+              <div className="type-note flex gap-4 text-muted lg:flex-col lg:gap-2">
+                {sheet && <span className="text-accent-deep">{sheet}</span>}
+                {eyebrow && <span>{eyebrow}</span>}
+              </div>
+            </Reveal>
+
+            <div>
+              {heading && (
+                <Reveal delay={60}>
+                  <h2 className="type-display max-w-[16ch] text-[clamp(1.875rem,4.4vw,3.25rem)]">
+                    {heading}
+                  </h2>
+                </Reveal>
+              )}
+              {intro && (
+                <Reveal delay={120}>
+                  <div className="mt-6 max-w-[52ch] text-[0.9375rem] leading-relaxed text-muted text-pretty sm:text-base">
+                    {intro}
+                  </div>
+                </Reveal>
+              )}
+            </div>
           </header>
         )}
 
-        {children}
+        <div className={cn(!hasHeader && "pt-12 sm:pt-16")}>{children}</div>
+        <div className="h-12 sm:h-16" />
       </Container>
     </section>
   );

@@ -17,6 +17,7 @@ export default function ProcessPage() {
   return (
     <>
       <PageHero
+        sheet="C-00"
         eyebrow="Process"
         title={
           <>
@@ -29,12 +30,12 @@ export default function ProcessPage() {
 
       <ProcessOverview />
 
-      <Section eyebrow="Questions" heading="Before you ask" containerSize="narrow">
+      <Section sheet="C-01" eyebrow="Questions" heading="Before you ask" containerSize="narrow">
         <dl className="rule-top">
           {FAQS.map((faq, index) => (
             <Reveal key={faq.question} delay={index * 50}>
               <div className="border-b border-line-soft py-7">
-                <dt className="font-display text-xl leading-snug text-fg text-pretty">
+                <dt className="type-title text-xl text-ink text-pretty">
                   {faq.question}
                 </dt>
                 <dd className="mt-3 text-sm leading-relaxed text-muted text-pretty sm:text-base">

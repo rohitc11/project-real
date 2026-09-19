@@ -4,7 +4,7 @@ import { themeColors } from "@/config/theme";
 export const size = { width: 64, height: 64 };
 export const contentType = "image/png";
 
-/** Favicon drawn from the same key mark as the logo, coloured from the theme. */
+/** Favicon: the key mark inside a drawn frame, coloured from the theme. */
 export default function Icon() {
   return new ImageResponse(
     (
@@ -16,22 +16,21 @@ export default function Icon() {
           alignItems: "center",
           justifyContent: "center",
           background: themeColors.iconBackground,
-          borderRadius: 12,
         }}
       >
         <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
-          <circle cx="8" cy="8" r="4.4" stroke={themeColors.iconMark} strokeWidth="1.8" />
+          <circle cx="8.5" cy="8.5" r="4" stroke={themeColors.iconMark} strokeWidth="2" />
           <path
-            d="M11.2 11.2 19.8 19.8"
+            d="M11.4 11.4 19.5 19.5"
             stroke={themeColors.iconMark}
-            strokeWidth="1.8"
-            strokeLinecap="round"
+            strokeWidth="2"
+            strokeLinecap="square"
           />
           <path
-            d="M14.9 14.9 17.3 12.5M17 17l2-2"
+            d="M14.8 14.8 17 12.6M16.9 16.9 18.8 15"
             stroke={themeColors.iconMark}
-            strokeWidth="1.8"
-            strokeLinecap="round"
+            strokeWidth="2"
+            strokeLinecap="square"
           />
         </svg>
       </div>

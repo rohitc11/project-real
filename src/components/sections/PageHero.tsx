@@ -1,53 +1,62 @@
 import { Container } from "@/components/ui/Container";
 import { Reveal } from "@/components/ui/Reveal";
+import { SheetStrip, type SheetField } from "@/components/ui/SheetStrip";
 
 /**
- * Opening block for interior pages. The top padding clears the fixed header.
+ * Opening block for interior pages. The sheet strip keeps every page inside
+ * the same drawing set; the top padding clears the fixed header.
  */
 export function PageHero({
+  sheet,
   eyebrow,
   title,
   intro,
   meta,
 }: {
+  /** Drawing reference for this page, e.g. "A-03". */
+  sheet: string;
   eyebrow: string;
   title: React.ReactNode;
   intro?: React.ReactNode;
-  /** Optional label/value pairs shown under the intro. */
+  /** Optional label/value pairs shown in a ruled grid under the intro. */
   meta?: { label: string; value: string }[];
 }) {
-  return (
-    <section className="grain relative overflow-hidden pb-16 pt-32 sm:pb-20 sm:pt-44">
-      <div className="aura" aria-hidden="true" />
+  const fields: SheetField[] = [
+    { label: "Sheet", value: sheet },
+    { label: "Section", value: eyebrow },
+    { label: "Rev", value: "C" },
+  ];
 
-      <Container className="relative">
+  return (
+    <section className="survey-grid relative overflow-hidden pt-16 lg:pt-[4.5rem]">
+      <SheetStrip fields={fields} />
+
+      <Container className="relative pb-14 pt-14 sm:pb-18 sm:pt-20">
         <Reveal>
-          <p className="eyebrow">{eyebrow}</p>
+          <p className="type-note text-accent-deep">{eyebrow}</p>
         </Reveal>
 
-        <Reveal delay={90}>
-          <h1 className="mt-6 max-w-[18ch] font-display text-[clamp(2.5rem,7vw,5.5rem)] leading-[0.98] tracking-[-0.02em] text-balance">
+        <Reveal delay={70}>
+          <h1 className="type-display mt-6 max-w-[17ch] text-[clamp(2.25rem,6.6vw,4.75rem)]">
             {title}
           </h1>
         </Reveal>
 
         {intro && (
-          <Reveal delay={170}>
-            <div className="mt-8 max-w-2xl text-base leading-relaxed text-muted text-pretty sm:text-lg">
+          <Reveal delay={140}>
+            <div className="mt-7 max-w-[56ch] text-[0.9375rem] leading-relaxed text-muted text-pretty sm:text-lg">
               {intro}
             </div>
           </Reveal>
         )}
 
         {meta && meta.length > 0 && (
-          <Reveal delay={240}>
-            <dl className="mt-12 grid grid-cols-2 gap-x-6 gap-y-6 border-t border-line-soft pt-8 sm:grid-cols-4">
+          <Reveal delay={200}>
+            <dl className="mt-12 grid gap-px border border-ink bg-line sm:grid-cols-2 lg:grid-cols-4">
               {meta.map((item) => (
-                <div key={item.label}>
-                  <dt className="text-[0.6875rem] uppercase tracking-[0.14em] text-subtle">
-                    {item.label}
-                  </dt>
-                  <dd className="mt-2 text-sm text-fg">{item.value}</dd>
+                <div key={item.label} className="bg-ground p-5">
+                  <dt className="type-note text-muted">{item.label}</dt>
+                  <dd className="mt-2.5 text-sm text-ink">{item.value}</dd>
                 </div>
               ))}
             </dl>

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, Instrument_Serif } from "next/font/google";
+import { Archivo, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 
 import { BRAND } from "@/config/brand";
@@ -10,17 +10,19 @@ import { Footer } from "@/components/layout/Footer";
 import { FloatingContact } from "@/components/layout/FloatingContact";
 import { StructuredData } from "@/components/layout/StructuredData";
 
-const sans = Inter({
+/** Archivo carries a width axis; the display roles expand it to 118%. */
+const sans = Archivo({
   variable: "--font-sans-family",
   subsets: ["latin"],
+  axes: ["wdth"],
   display: "swap",
 });
 
-const display = Instrument_Serif({
-  variable: "--font-display-family",
+/** Every annotation, dimension and sheet reference on the site. */
+const mono = IBM_Plex_Mono({
+  variable: "--font-mono-family",
   subsets: ["latin"],
-  weight: "400",
-  style: ["normal", "italic"],
+  weight: ["400", "500", "600"],
   display: "swap",
 });
 
@@ -61,12 +63,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="en"
       data-theme={THEME}
-      className={`${sans.variable} ${display.variable} h-full`}
+      className={`${sans.variable} ${mono.variable} h-full`}
     >
-      <body className="flex min-h-full flex-col bg-ink text-fg">
+      <body className="flex min-h-full flex-col bg-ground text-ink">
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded-sm focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-accent-ink"
+          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-accent-ink"
         >
           Skip to content
         </a>

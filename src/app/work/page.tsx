@@ -15,6 +15,7 @@ export default function WorkPage() {
   return (
     <>
       <PageHero
+        sheet="B-00"
         eyebrow="Work"
         title={
           <>

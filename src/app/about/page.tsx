@@ -37,6 +37,7 @@ export default function AboutPage() {
   return (
     <>
       <PageHero
+        sheet="F-00"
         eyebrow="About"
         title={
           <>
@@ -47,15 +48,15 @@ export default function AboutPage() {
         intro={`${BRAND.name} was built to fix a specific problem: property marketing that reports beautifully and sells nothing. We started in real estate because it punishes vanity metrics faster than any other category, and we have kept that standard everywhere else we work.`}
       />
 
-      <Section eyebrow="How we operate" heading="Four principles we do not trade away">
-        <div className="grid gap-px overflow-hidden rounded-md border border-line-soft bg-line-soft sm:grid-cols-2">
+      <Section sheet="F-01" eyebrow="Standards" heading="Four principles we do not trade away">
+        <div className="grid gap-px overflow-hidden border border-line-soft bg-line-soft sm:grid-cols-2">
           {PRINCIPLES.map((principle, index) => (
             <Reveal key={principle.title} delay={index * 70}>
-              <div className="h-full bg-surface p-8 sm:p-10">
-                <span className="font-display text-sm text-accent">
+              <div className="h-full bg-paper p-8 sm:p-10">
+                <span className="type-data text-sm font-semibold text-accent-deep">
                   {String(index + 1).padStart(2, "0")}
                 </span>
-                <h3 className="mt-5 font-display text-2xl leading-tight text-fg text-balance">
+                <h3 className="type-title mt-5 text-2xl text-ink">
                   {principle.title}
                 </h3>
                 <p className="mt-4 text-sm leading-relaxed text-muted text-pretty">
@@ -67,17 +68,17 @@ export default function AboutPage() {
         </div>
       </Section>
 
-      <Section eyebrow="By the numbers" heading="Where we have got to" rule>
+      <Section sheet="F-02" eyebrow="Measured" heading="Where we have got to">
         <dl className="grid grid-cols-2 gap-x-6 gap-y-10 lg:grid-cols-4">
           {STATS.map((stat, index) => (
             <Reveal key={stat.label} delay={index * 70}>
               <div>
-                <dt className="font-display text-[clamp(2.25rem,5vw,3.5rem)] leading-none text-fg">
+                <dt className="type-data text-[clamp(2rem,4.4vw,3rem)] font-semibold leading-none text-ink">
                   {stat.value}
                 </dt>
                 <dd className="mt-3 text-sm text-muted">{stat.label}</dd>
                 {stat.note && (
-                  <p className="mt-1.5 text-xs leading-snug text-subtle">{stat.note}</p>
+                  <p className="mt-1.5 text-xs leading-snug text-muted">{stat.note}</p>
                 )}
               </div>
             </Reveal>

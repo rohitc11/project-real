@@ -10,7 +10,7 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
   return (
-    <LegalPage title="Privacy policy" updated="September 2026">
+    <LegalPage sheet="Z-01" title="Privacy policy" updated="September 2026">
       <h2>What we collect</h2>
       <p>
         When you submit the enquiry form we collect the name, email address, company,

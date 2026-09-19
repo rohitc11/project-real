@@ -1,127 +1,103 @@
 @import "tailwindcss";
 
 /* ==================================================================
-   DESIGN TOKENS — LIGHT (default)
-   Rebranding = change the values in this block. Nothing below :root
-   hardcodes a colour, so every component follows automatically.
-   The dark palette is preserved further down under [data-theme="dark"];
-   flip between them with THEME in src/config/theme.ts.
+   DESIGN TOKENS — PAPER (light, default)
+
+   Visual direction: "Site Plan". The page is organised like an
+   architectural drawing set — survey grid, dimension lines, a drawing
+   schedule in place of a services list, a title block for a footer.
+
+   Naming note: `ink` means drawn line, not page background. The page
+   ground is `ground`, raised surfaces are `paper`.
    ================================================================== */
 :root {
-  /* Surfaces, page backdrop first */
-  --brand-ink: #faf9f7;
-  --brand-surface: #ffffff;
-  --brand-surface-2: #f2efe9;
-  --brand-elevated: #ffffff;
-  --brand-line: #cec7ba;
-  --brand-line-soft: #e0dbd1;
+  --brand-ground: #e9ece6;
+  --brand-paper: #f2f4ef;
+  --brand-wash: #e7e3db;
 
-  /* Foreground — warm near-black, not pure grey */
-  --brand-fg: #15140f;
-  --brand-muted: #5c594f;
-  --brand-subtle: #6f6a61;
+  --brand-ink: #16261e;
+  --brand-muted: #515d54;
 
-  /* Accent — deep bronze, the only saturated colour in the system.
-     Dark enough to clear 4.5:1 against the bone backdrop. */
-  --brand-accent: #8a6320;
-  --brand-accent-hi: #6d4d17;
-  --brand-accent-ink: #fffdf8;
-  --brand-accent-glow: rgb(138 99 32 / 0.18);
+  --brand-line: #c1cabd;
+  --brand-line-soft: #d6dcd2;
 
-  /* Feedback */
-  --brand-positive: #2f6b4a;
-  --brand-negative: #a33a22;
+  /* Survey orange. Split in two: `accent` is for display type, rules and
+     marks (large, so 3:1 applies); `accent-deep` is for anything set small,
+     where 4.5:1 applies. Both were measured against ground, paper and wash. */
+  --brand-accent: #c2471a;
+  --brand-accent-deep: #a83a11;
+  --brand-accent-ink: #ffffff;
 
-  /* Semantic effects — these differ per theme, so components reference the
-     token rather than a white or black literal. */
-  --brand-tint: rgb(21 20 15 / 0.035);
-  --brand-tint-strong: rgb(21 20 15 / 0.06);
-  --brand-shadow: rgb(21 20 15 / 0.07);
-  --brand-shadow-strong: rgb(21 20 15 / 0.13);
-  --brand-aura-1: rgb(138 99 32 / 0.09);
-  --brand-aura-2: rgb(21 20 15 / 0.035);
-  --brand-grain-blend: multiply;
-  --brand-grain-opacity: 0.045;
-  --brand-scrim: rgb(250 249 247 / 0.86);
+  --brand-positive: #2f6b45;
+  --brand-negative: #a8321b;
 
-  /* Shape */
-  --brand-radius-xs: 3px;
-  --brand-radius-sm: 6px;
-  --brand-radius-md: 12px;
-  --brand-radius-lg: 20px;
+  --brand-tint: rgb(194 71 26 / 0.055);
+  --brand-shadow: rgb(22 38 30 / 0.07);
+  --brand-shadow-strong: rgb(22 38 30 / 0.16);
+  --brand-scrim: rgb(233 236 230 / 0.9);
+  --brand-grid: rgb(22 38 30 / 0.055);
 
-  /* Layout */
-  --brand-gutter: 1.25rem;
-  --brand-max: 76rem;
+  --brand-radius-xs: 0px;
+  --brand-radius-sm: 2px;
+  --brand-radius-md: 3px;
 
-  /* Motion */
-  --brand-ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --brand-duration: 700ms;
+  --brand-ease: cubic-bezier(0.2, 0.8, 0.3, 1);
+  --brand-duration: 520ms;
 
   color-scheme: light;
 }
 
 /* ==================================================================
-   DESIGN TOKENS — DARK
+   DESIGN TOKENS — BLUEPRINT (dark)
    ================================================================== */
 [data-theme="dark"] {
-  --brand-ink: #08080a;
-  --brand-surface: #0e0e11;
-  --brand-surface-2: #141418;
-  --brand-elevated: #1b1b20;
-  --brand-line: #26262d;
-  --brand-line-soft: #1c1c22;
+  --brand-ground: #0b1a24;
+  --brand-paper: #102431;
+  --brand-wash: #16303f;
 
-  --brand-fg: #f3f1ec;
-  --brand-muted: #a3a09a;
-  --brand-subtle: #6f6c67;
+  --brand-ink: #e3edf3;
+  --brand-muted: #8ea7b5;
 
-  --brand-accent: #c6a667;
-  --brand-accent-hi: #e2c891;
-  --brand-accent-ink: #0b0b0d;
-  --brand-accent-glow: rgb(198 166 103 / 0.16);
+  --brand-line: #23394a;
+  --brand-line-soft: #1a2c3a;
 
-  --brand-positive: #7fc8a0;
-  --brand-negative: #e08b7a;
+  --brand-accent: #f2794c;
+  --brand-accent-deep: #f2794c;
+  --brand-accent-ink: #0b1a24;
 
-  --brand-tint: rgb(255 255 255 / 0.035);
-  --brand-tint-strong: rgb(255 255 255 / 0.06);
-  --brand-shadow: rgb(0 0 0 / 0.5);
-  --brand-shadow-strong: rgb(0 0 0 / 0.7);
-  --brand-aura-1: rgb(198 166 103 / 0.16);
-  --brand-aura-2: rgb(255 255 255 / 0.04);
-  --brand-grain-blend: overlay;
-  --brand-grain-opacity: 0.035;
-  --brand-scrim: rgb(8 8 10 / 0.85);
+  --brand-positive: #5fbf8e;
+  --brand-negative: #e57a5e;
+
+  --brand-tint: rgb(242 121 76 / 0.09);
+  --brand-shadow: rgb(0 0 0 / 0.4);
+  --brand-shadow-strong: rgb(0 0 0 / 0.6);
+  --brand-scrim: rgb(11 26 36 / 0.9);
+  --brand-grid: rgb(227 237 243 / 0.06);
 
   color-scheme: dark;
 }
 
 @theme inline {
+  --color-ground: var(--brand-ground);
+  --color-paper: var(--brand-paper);
+  --color-wash: var(--brand-wash);
+
   --color-ink: var(--brand-ink);
-  --color-surface: var(--brand-surface);
-  --color-surface-2: var(--brand-surface-2);
-  --color-elevated: var(--brand-elevated);
+  --color-muted: var(--brand-muted);
+
   --color-line: var(--brand-line);
   --color-line-soft: var(--brand-line-soft);
 
-  --color-fg: var(--brand-fg);
-  --color-muted: var(--brand-muted);
-  --color-subtle: var(--brand-subtle);
-
   --color-accent: var(--brand-accent);
-  --color-accent-hi: var(--brand-accent-hi);
+  --color-accent-deep: var(--brand-accent-deep);
   --color-accent-ink: var(--brand-accent-ink);
 
-  --font-display: var(--font-display-family), Georgia, "Times New Roman", serif;
-  --font-sans: var(--font-sans-family), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-sans-family), system-ui, -apple-system, sans-serif;
+  --font-mono: var(--font-mono-family), ui-monospace, SFMono-Regular, Menlo, monospace;
 
   --radius-xs: var(--brand-radius-xs);
   --radius-sm: var(--brand-radius-sm);
   --radius-md: var(--brand-radius-md);
-  --radius-lg: var(--brand-radius-lg);
-
-  --ease-brand: var(--brand-ease);
 }
 
 /* ==================================================================
@@ -140,10 +116,9 @@
   }
 
   body {
-    background-color: var(--brand-ink);
-    color: var(--brand-fg);
+    background-color: var(--brand-ground);
+    color: var(--brand-ink);
     font-family: var(--font-sans);
-    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
@@ -154,80 +129,152 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--brand-accent);
-    outline-offset: 3px;
-    border-radius: 2px;
-  }
-
-  /* Display type wants tighter tracking and optical sizing */
-  .font-display,
-  h1,
-  h2 {
-    letter-spacing: -0.015em;
+    outline: 2px solid var(--brand-accent-deep);
+    outline-offset: 2px;
+    border-radius: 0;
   }
 
   ::-webkit-scrollbar {
-    width: 10px;
-    height: 10px;
+    width: 11px;
+    height: 11px;
   }
   ::-webkit-scrollbar-track {
-    background: var(--brand-ink);
+    background: var(--brand-ground);
+    border-left: 1px solid var(--brand-line-soft);
   }
   ::-webkit-scrollbar-thumb {
     background: var(--brand-line);
-    border-radius: 99px;
-    border: 3px solid var(--brand-ink);
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: var(--brand-subtle);
+    background: var(--brand-muted);
   }
 }
 
 /* ==================================================================
-   COMPONENT PRIMITIVES
-   Patterns repeated often enough that a class beats copy-pasted utilities.
+   TYPE ROLES
+   Archivo carries a width axis. Expanding it for display type is what
+   makes the headings read as drafted rather than merely large.
    ================================================================== */
 @layer components {
-  /* Small uppercase label that sits above a heading. */
-  .eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.625rem;
-    font-size: 0.6875rem;
+  .type-display {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    font-stretch: 118%;
+    line-height: 0.92;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+
+  .type-title {
+    font-family: var(--font-sans);
+    font-weight: 700;
+    font-stretch: 108%;
+    line-height: 1.04;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+
+  /* Every annotation, sheet reference, dimension and label on the site. */
+  .type-note {
+    font-family: var(--font-mono);
+    font-size: 0.65625rem;
     font-weight: 500;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.13em;
     text-transform: uppercase;
-    color: var(--brand-subtle);
+    line-height: 1.5;
   }
 
-  .eyebrow::before {
+  .type-data {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+
+  /* ================================================================
+     DRAWING DEVICES
+     ================================================================ */
+
+  /* Survey grid. Fades downward so it reads as a drawing ground rather
+     than a texture stamped over the whole page. */
+  .survey-grid::before {
     content: "";
-    width: 1.75rem;
-    height: 1px;
-    background: linear-gradient(to right, var(--brand-accent), transparent);
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      repeating-linear-gradient(to right, var(--brand-grid) 0 1px, transparent 1px 48px),
+      repeating-linear-gradient(to bottom, var(--brand-grid) 0 1px, transparent 1px 48px);
+    mask-image: linear-gradient(to bottom, #000 0%, #000 45%, transparent 100%);
   }
 
-  /* Hairline divider that fades at both ends. */
-  .hairline {
-    height: 1px;
-    background: linear-gradient(
-      to right,
-      transparent,
-      var(--brand-line) 12%,
-      var(--brand-line) 88%,
-      transparent
-    );
+  /* Sheet strip — the metadata bar that opens a drawing. */
+  .sheet-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem 1.375rem;
+    padding-block: 0.75rem;
+    border-bottom: 1px solid var(--brand-line);
+    color: var(--brand-muted);
   }
 
-  /* Scroll reveal. Paired with <Reveal>, which flips data-visible. */
+  /* Dimension line — the signature device. Any before/after claim is
+     drawn to scale with tick marks and a unit. */
+  .dim-line {
+    flex: 1;
+    height: 1px;
+    background: currentColor;
+    position: relative;
+    min-width: 2rem;
+  }
+  .dim-line::before,
+  .dim-line::after {
+    content: "";
+    position: absolute;
+    top: -4px;
+    width: 1px;
+    height: 9px;
+    background: currentColor;
+  }
+  .dim-line::before {
+    left: 0;
+  }
+  .dim-line::after {
+    right: 0;
+  }
+
+  /* Corner ticks, used on plates that should read as a drawn frame. */
+  .corner-ticks {
+    position: relative;
+  }
+  .corner-ticks::before,
+  .corner-ticks::after {
+    content: "";
+    position: absolute;
+    width: 9px;
+    height: 9px;
+    border-color: var(--brand-accent);
+    border-style: solid;
+    pointer-events: none;
+  }
+  .corner-ticks::before {
+    top: -1px;
+    left: -1px;
+    border-width: 1px 0 0 1px;
+  }
+  .corner-ticks::after {
+    bottom: -1px;
+    right: -1px;
+    border-width: 0 1px 1px 0;
+  }
+
+  /* Scroll reveal. Short travel — drafted elements should settle, not float. */
   .reveal {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(10px);
     transition:
       opacity var(--brand-duration) var(--brand-ease),
       transform var(--brand-duration) var(--brand-ease);
     transition-delay: var(--reveal-delay, 0ms);
-    will-change: opacity, transform;
   }
 
   .reveal[data-visible="true"] {
@@ -241,32 +288,6 @@
       transform: none;
       transition: none;
     }
-  }
-
-  /* Very fine paper grain — keeps large flat areas from looking plastic. */
-  .grain::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    opacity: var(--brand-grain-opacity);
-    mix-blend-mode: var(--brand-grain-blend);
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-
-  /* Soft wash used behind hero and CTA sections. */
-  .aura {
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background:
-      radial-gradient(60% 50% at 50% 0%, var(--brand-aura-1), transparent 70%),
-      radial-gradient(40% 40% at 85% 25%, var(--brand-aura-2), transparent 70%);
-  }
-
-  /* Thin top rule used to open editorial sections. */
-  .rule-top {
-    border-top: 1px solid var(--brand-line-soft);
   }
 }
 

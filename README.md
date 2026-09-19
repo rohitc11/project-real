@@ -20,7 +20,7 @@ The brand is a constant, not a string scattered through components.
 | To change | Edit |
 | --- | --- |
 | Company name, tagline, contact details, socials, address | `src/config/brand.ts` |
-| Light or dark theme | `THEME` in `src/config/theme.ts` |
+| Paper or blueprint palette | `THEME` in `src/config/theme.ts` |
 | Colours, fonts, radii, motion | the `:root` block in `src/app/globals.css` |
 | Navigation and footer links | `src/config/site.ts` |
 | Service catalogue | `src/config/services.ts` |
@@ -30,27 +30,56 @@ Nothing outside `src/config/brand.ts` hardcodes the company name. Renaming the
 company is a one-file edit; the logo, metadata, sitemap, JSON-LD, OG image,
 legal pages and every CTA follow automatically.
 
+## Design direction — "Site Plan"
+
+The site is organised like an architectural drawing set, and the structure
+carries meaning rather than decorating it:
+
+- **Sheet references.** Every page and section carries one (`A-03`, `B-00`).
+  The reference in the services menu is the same one on that service's page.
+- **The drawing schedule.** Services are a schedule table with a scope column
+  and a drawing column, not a grid of cards.
+- **Dimension lines.** `<DimensionLine>` draws a before/after claim to scale —
+  a 96% cut in response time renders as a line 6% as long. Only use it for
+  comparisons that genuinely have a unit and a baseline; anywhere else it is
+  decoration and should be deleted.
+- **The programme bar.** Process stages carry a bar whose offset and length
+  match when they run, so the overlap between building and scaling is visible.
+- **The title block.** The footer is a ruled grid of labelled cells — practice,
+  contact, studio, revision — the way a drawing sheet carries that information.
+- **The survey grid.** A 48px grid, masked to fade downward so it reads as
+  drawing ground rather than a texture stamped over everything.
+
+Type is Archivo and IBM Plex Mono. Archivo carries a width axis, and the
+display roles expand it to 118% — that width is what makes headings read as
+drafted rather than merely large. Every annotation, dimension, sheet reference
+and label uses the mono face. Three type roles are defined as classes in
+`globals.css`: `.type-display`, `.type-title`, `.type-note`, `.type-data`.
+
 ## Theming
 
-The site ships two complete palettes. Light is the default `:root` set in
-`globals.css`; dark lives under `[data-theme="dark"]` in the same file. Flipping
+Two complete palettes ship. Light is **paper** (`#e9ece6` ground, survey orange);
+dark is **blueprint** (`#0b1a24` ground, warm orange). Light is the default
+`:root` set in `globals.css`; dark lives under `[data-theme="dark"]`. Flipping
 `THEME` in `src/config/theme.ts` writes the attribute onto `<html>` and switches
-everything — including the `theme-color` meta tag, the generated favicon and the
-OG card.
+everything, including the `theme-color` meta tag, the favicon and the OG card.
 
-Components never reference a white or black literal. Effects that have to differ
-between themes go through semantic tokens instead: `--brand-tint` for hover
-overlays, `--brand-shadow` / `--brand-shadow-strong` for elevation,
-`--brand-scrim` for the translucent header, `--brand-aura-*` for the section
-washes, and `--brand-grain-blend` / `--brand-grain-opacity` for the paper
-texture.
+Token naming is deliberate: `ink` means the drawn line, not the page. The page
+ground is `ground` and raised surfaces are `paper`.
+
+The accent is split in two because one orange could not do both jobs
+accessibly. `--brand-accent` (`#c2471a`) is for display type, rules and marks,
+where WCAG's 3:1 large-text threshold applies. `--brand-accent-deep`
+(`#a83a11`) is for anything set small, where 4.5:1 applies. Both were measured
+against the ground, the paper surface and the hover wash.
+
+Components never reference a colour literal. Effects that differ between themes
+go through semantic tokens: `--brand-tint` (hover), `--brand-shadow`,
+`--brand-scrim` (translucent header), `--brand-grid` (survey grid).
 
 `src/config/theme.ts` mirrors a handful of hex values because `next/og` renders
 outside the browser and cannot read CSS custom properties. That file is the only
 place any colour is duplicated, and it says so in a comment.
-
-The light palette was checked against WCAG AA: every text token clears 4.5:1 on
-the page background, on cards and on the hover surface.
 
 ## Architecture
 

@@ -2,53 +2,66 @@ import Link from "next/link";
 
 import { Section } from "@/components/ui/Section";
 import { Reveal } from "@/components/ui/Reveal";
-import { TextLink, ArrowRight } from "@/components/ui/Button";
+import { NoteLink } from "@/components/ui/Button";
 import { SERVICES } from "@/config/services";
 
+/**
+ * The services list rendered as a drawing schedule. The sheet reference in the
+ * right-hand column is not decoration — it is the same reference used on the
+ * service's own page, so the set stays internally consistent.
+ */
 export function ServicesOverview() {
   return (
     <Section
       id="services"
-      eyebrow="What we do"
+      sheet="A-00"
+      eyebrow="Schedule"
       heading={
         <>
-          Seven disciplines, run as <span className="italic text-accent">one funnel</span>
+          Seven disciplines, one <span className="text-accent">funnel</span>
         </>
       }
-      intro="Most agencies sell channels. We sell the path from a stranger scrolling at midnight to a signed booking — and we own every step of it."
+      intro="Most agencies sell channels. We take responsibility for the whole path — the search a buyer runs at midnight, the ad they scroll past twice, and the four minutes that decide whether anyone calls them back."
     >
-      <ul className="rule-top">
-        {SERVICES.map((service, index) => (
-          <Reveal as="li" key={service.slug} delay={index * 50}>
-            <Link
-              href={`/services/${service.slug}`}
-              className="group grid grid-cols-[auto_1fr] items-baseline gap-x-5 gap-y-2 border-b border-line-soft py-7 transition-colors duration-500 hover:border-accent/40 sm:grid-cols-[4rem_1fr_auto] sm:gap-x-8 sm:py-9"
-            >
-              <span className="font-display text-sm text-subtle transition-colors duration-500 group-hover:text-accent">
-                {service.index}
-              </span>
+      <div className="border-t border-ink">
+        <div className="type-note grid grid-cols-[2.5rem_1fr_3.5rem] gap-4 border-b border-line py-2.5 text-muted sm:grid-cols-[3.5rem_1fr_5rem]">
+          <span>No.</span>
+          <span>Scope of work</span>
+          <span className="text-right">Drawing</span>
+        </div>
 
-              <span className="min-w-0">
-                <span className="block font-display text-[clamp(1.5rem,3vw,2.25rem)] leading-tight text-fg transition-colors duration-500 group-hover:text-accent">
-                  {service.title}
+        <ul>
+          {SERVICES.map((service, index) => (
+            <Reveal as="li" key={service.slug} delay={index * 40}>
+              <Link
+                href={`/services/${service.slug}`}
+                className="group grid grid-cols-[2.5rem_1fr_3.5rem] items-baseline gap-4 border-b border-line-soft py-5 transition-colors duration-300 hover:bg-[var(--brand-tint)] sm:grid-cols-[3.5rem_1fr_5rem] sm:py-6"
+              >
+                <span className="type-data text-[0.8125rem] font-semibold text-accent-deep">
+                  {service.index}
                 </span>
-                <span className="mt-2 block max-w-xl text-sm leading-relaxed text-muted text-pretty">
-                  {service.short}
+
+                <span className="min-w-0">
+                  <span className="type-title block text-[clamp(1.125rem,2.2vw,1.625rem)] text-ink transition-colors duration-300 group-hover:text-accent-deep">
+                    {service.title}
+                  </span>
+                  <span className="mt-1.5 block max-w-[52ch] text-sm leading-relaxed text-muted text-pretty">
+                    {service.short}
+                  </span>
                 </span>
-              </span>
 
-              <span className="col-start-2 mt-2 inline-flex items-center gap-2 text-xs uppercase tracking-[0.14em] text-subtle transition-colors duration-500 group-hover:text-accent sm:col-start-3 sm:mt-0">
-                Explore
-                <ArrowRight className="size-3.5" />
-              </span>
-            </Link>
-          </Reveal>
-        ))}
-      </ul>
+                <span className="type-note text-right text-muted transition-colors duration-300 group-hover:text-accent-deep">
+                  A-{service.index}
+                </span>
+              </Link>
+            </Reveal>
+          ))}
+        </ul>
+      </div>
 
-      <Reveal delay={120}>
-        <div className="mt-12">
-          <TextLink href="/services">See how the disciplines fit together</TextLink>
+      <Reveal delay={100}>
+        <div className="mt-10">
+          <NoteLink href="/services">See the full set</NoteLink>
         </div>
       </Reveal>
     </Section>
