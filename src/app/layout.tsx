@@ -2,7 +2,7 @@ import type { Metadata, Viewport } from "next";
 import { Archivo, IBM_Plex_Mono } from "next/font/google";
 import "./globals.css";
 
-import { BRAND } from "@/config/brand";
+import { BRAND, siteUrl } from "@/config/brand";
 import { SEO } from "@/config/site";
 import { THEME, themeColors } from "@/config/theme";
 import { Header } from "@/components/layout/Header";
@@ -27,14 +27,14 @@ const mono = IBM_Plex_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(BRAND.url),
+  metadataBase: new URL(siteUrl),
   title: {
     default: SEO.defaultTitle,
     template: SEO.titleTemplate,
   },
   description: SEO.description,
   applicationName: BRAND.name,
-  authors: [{ name: BRAND.name, url: BRAND.url }],
+  authors: [{ name: BRAND.name, url: siteUrl }],
   creator: BRAND.name,
   publisher: BRAND.legalName,
   openGraph: {
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     siteName: BRAND.name,
     title: SEO.defaultTitle,
     description: SEO.description,
-    url: BRAND.url,
+    url: siteUrl,
     locale: SEO.locale,
   },
   twitter: {

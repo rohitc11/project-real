@@ -1,4 +1,4 @@
-import { BRAND, socialLinks } from "@/config/brand";
+import { BRAND, siteUrl, socialLinks } from "@/config/brand";
 import { SERVICES } from "@/config/services";
 
 /**
@@ -9,10 +9,10 @@ export function StructuredData() {
   const data = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
-    "@id": `${BRAND.url}/#organization`,
+    "@id": `${siteUrl}/#organization`,
     name: BRAND.name,
     legalName: BRAND.legalName,
-    url: BRAND.url,
+    url: siteUrl,
     description: BRAND.description,
     slogan: BRAND.tagline,
     foundingDate: String(BRAND.founded),
@@ -37,7 +37,7 @@ export function StructuredData() {
           "@type": "Service",
           name: service.title,
           description: service.short,
-          url: `${BRAND.url}/services/${service.slug}`,
+          url: `${siteUrl}/services/${service.slug}`,
         },
       })),
     },

@@ -97,6 +97,56 @@ src/lib/         small helpers
 Sections are composed, not duplicated: `ServicesOverview`, `SelectedWork`,
 `ProcessOverview` and `CtaBand` each appear on several pages.
 
+## Deploying to Vercel
+
+The repo is already pushed to `origin`, so the import path is the simplest.
+
+1. At [vercel.com/new](https://vercel.com/new), import `rohitc11/project-real`.
+   Next.js is detected automatically — do not override build or output settings.
+2. Add environment variables before the first deploy (Settings → Environment
+   Variables), for Production and Preview:
+
+   | Variable | Needed | Notes |
+   | --- | --- | --- |
+   | `RESEND_API_KEY` | Yes, before launch | Without it the contact form returns a visible error in production rather than dropping leads silently |
+   | `CONTACT_TO_EMAIL` | Optional | Defaults to `BRAND.email.general` |
+   | `CONTACT_FROM_EMAIL` | Optional | Must be a sender verified in Resend |
+   | `NEXT_PUBLIC_SITE_URL` | Only once a domain is attached | e.g. `https://keyturnmedia.com` |
+
+3. Deploy. Every push to `main` ships to production; every other branch gets a
+   preview URL.
+
+CLI alternative, from the project root: `npx vercel` for a preview,
+`npx vercel --prod` for production. `npx vercel env add RESEND_API_KEY`
+adds variables without the dashboard.
+
+### About the site URL
+
+Absolute URLs — `metadataBase`, `sitemap.xml`, `robots.txt` and the JSON-LD —
+resolve through `siteUrl` in `src/config/brand.ts`, in this order:
+
+1. `NEXT_PUBLIC_SITE_URL`
+2. Vercel's production domain, injected automatically
+3. `BRAND.url`
+
+So a deployment is correct on `*.vercel.app` before any domain exists, and
+correct again the moment one is attached. `BRAND.url` stays the canonical
+value and does not need editing to deploy.
+
+### Attaching a domain
+
+Add it under Settings → Domains, point the registrar at Vercel's nameservers
+(or add the `A` / `CNAME` records it shows), then set `NEXT_PUBLIC_SITE_URL` to
+the final origin and redeploy so the sitemap and OG tags follow.
+
+### Before going live
+
+- Replace every `PLACEHOLDER` in `src/config/brand.ts`
+- Replace the sample figures, client names and testimonials in
+  `src/config/content.ts` — they are invented
+- Have `/privacy` and `/terms` reviewed by a lawyer
+- Set `RESEND_API_KEY` and send one test enquiry
+
 ## Notes
 
 - Scroll animation uses `IntersectionObserver` and CSS transitions rather than an

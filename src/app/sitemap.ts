@@ -1,6 +1,6 @@
 import type { MetadataRoute } from "next";
 
-import { BRAND } from "@/config/brand";
+import { siteUrl } from "@/config/brand";
 import { SERVICES } from "@/config/services";
 import { CASE_STUDIES } from "@/config/content";
 
@@ -20,19 +20,19 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     ...staticRoutes.map((route) => ({
-      url: `${BRAND.url}${route.path}`,
+      url: `${siteUrl}${route.path}`,
       lastModified: now,
       changeFrequency: "monthly" as const,
       priority: route.priority,
     })),
     ...SERVICES.map((service) => ({
-      url: `${BRAND.url}/services/${service.slug}`,
+      url: `${siteUrl}/services/${service.slug}`,
       lastModified: now,
       changeFrequency: "monthly" as const,
       priority: 0.8,
     })),
     ...CASE_STUDIES.map((study) => ({
-      url: `${BRAND.url}/work/${study.slug}`,
+      url: `${siteUrl}/work/${study.slug}`,
       lastModified: now,
       changeFrequency: "yearly" as const,
       priority: 0.6,

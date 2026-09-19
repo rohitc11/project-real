@@ -83,6 +83,25 @@ export const BRAND = {
 /* Derived values — always use these instead of rebuilding URLs inline. */
 /* ------------------------------------------------------------------ */
 
+/**
+ * Canonical origin for absolute URLs (metadata, sitemap, robots, JSON-LD).
+ *
+ * Resolution order:
+ *   1. NEXT_PUBLIC_SITE_URL   — set this once a real domain is attached
+ *   2. Vercel's production domain — keeps a vercel.app deployment correct
+ *   3. BRAND.url              — the canonical value above
+ *
+ * Without this, a deployment before the domain exists would publish OG tags
+ * and a sitemap pointing at a host that does not resolve.
+ */
+const envSiteUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "");
+
+export const siteUrl = (envSiteUrl || BRAND.url).replace(/\/$/, "");
+
 export const telHref = `tel:${BRAND.phone.e164}`;
 
 export const mailtoHref = `mailto:${BRAND.email.general}`;
