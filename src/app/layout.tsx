@@ -4,6 +4,7 @@ import { Hanken_Grotesk } from "next/font/google";
 import { Footer } from "@/components/layout/Footer";
 import { Header } from "@/components/layout/Header";
 import { SITE } from "@/config/site";
+import { PALETTE, themeStyle } from "@/config/theme";
 import "./globals.css";
 
 const hanken = Hanken_Grotesk({
@@ -26,12 +27,12 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#f6f9fb",
+  themeColor: PALETTE.colors.cloud,
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={hanken.variable}>
+    <html lang="en" className={hanken.variable} style={themeStyle}>
       <body className="font-sans">
         <Header />
         <main>{children}</main>

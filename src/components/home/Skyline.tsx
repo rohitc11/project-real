@@ -8,7 +8,7 @@ const HEIGHTS = ["78%", "92%", "66%", "100%", "84%"];
 
 export function Skyline() {
   return (
-    <section className="pb-28 md:pb-44">
+    <section className="pt-4 pb-28 md:pt-12 md:pb-44">
       <div className="shell">
         <div className="reveal flex items-end justify-between border-b border-haze pb-5 md:border-0">
           <h2 className="caps text-steel">What we do</h2>

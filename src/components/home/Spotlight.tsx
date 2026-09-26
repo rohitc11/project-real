@@ -12,7 +12,7 @@ export function Spotlight() {
           className="reveal aspect-4/5 md:col-span-6"
         />
         <div className="reveal md:col-span-5 md:col-start-8 md:pb-4">
-          <p className="caps text-glass">Our specialty</p>
+          <p className="caps text-accent-text">Our specialty</p>
           <h2 className="display mt-6 text-[clamp(2.75rem,5.5vw,5.5rem)]">Property, marketed to sell.</h2>
           <p className="mt-6 text-lg text-steel">Launches · Listings · Developments</p>
           <ButtonLink href="/services#real-estate" variant="quiet" className="mt-10">

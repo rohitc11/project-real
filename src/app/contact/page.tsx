@@ -13,7 +13,7 @@ export default function ContactPage() {
   return (
     <section className="shell grid gap-16 pt-36 pb-28 md:grid-cols-12 md:pt-48 md:pb-40">
       <div className="md:col-span-5">
-        <p className="caps animate-fade-up text-glass">Contact</p>
+        <p className="caps animate-fade-up text-accent-text">Contact</p>
         <h1 className="display mt-6 animate-fade-up text-[clamp(3.5rem,8vw,7.5rem)] [animation-delay:150ms]">
           Let’s talk.
         </h1>

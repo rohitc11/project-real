@@ -17,7 +17,7 @@ export function Beyond() {
               className="display flex items-center gap-[0.45em] pr-[0.45em] text-[clamp(2.25rem,5vw,4.5rem)] text-steel"
             >
               {industry}
-              <span className="size-2 rounded-full bg-glass md:size-2.5" />
+              <span className="size-2 rounded-full bg-accent md:size-2.5" />
             </span>
           ))}
         </div>

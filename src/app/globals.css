@@ -1,22 +1,30 @@
 @import "tailwindcss";
 
-/* Palette sampled from the photography — see DESIGN_PROMPT.md. */
-:root {
-  --cloud: #f6f9fb;
-  --sky: #e3ecf5;
-  --haze: #bed3e0;
-  --glass: #2b6b95;
-  --ink: #0f1d26;
-  --steel: #5a6975;
-}
+/* Colours are set on <html> from src/config/themes.json — switch themes in
+   src/config/theme.ts. Components use the role colours (accent, btn, key,
+   footer, dusk…) so every theme can place its colours differently. */
 
 @theme inline {
   --color-cloud: var(--cloud);
   --color-sky: var(--sky);
   --color-haze: var(--haze);
-  --color-glass: var(--glass);
   --color-ink: var(--ink);
   --color-steel: var(--steel);
+
+  --color-accent: var(--accent);
+  --color-accent-text: var(--accent-text);
+  --color-btn: var(--btn);
+  --color-btn-fg: var(--btn-fg);
+  --color-btn-hover: var(--btn-hover);
+  --color-btn-hover-fg: var(--btn-hover-fg);
+  --color-key: var(--key);
+  --color-statement: var(--statement);
+  --color-statement-fg: var(--statement-fg);
+  --color-statement-em: var(--statement-em);
+  --color-footer: var(--footer);
+  --color-footer-fg: var(--footer-fg);
+  --color-footer-key: var(--footer-key);
+  --color-dusk: var(--dusk);
 
   --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
 
@@ -48,11 +56,11 @@
     line-height: 1.55;
   }
   ::selection {
-    background: var(--glass);
+    background: var(--accent);
     color: var(--cloud);
   }
   :focus-visible {
-    outline: 2px solid var(--glass);
+    outline: 2px solid var(--accent-text);
     outline-offset: 3px;
   }
 }

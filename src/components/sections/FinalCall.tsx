@@ -14,7 +14,7 @@ export function FinalCall() {
         cover
         className="-z-10"
       />
-      <div className="absolute inset-x-0 bottom-0 -z-10 h-1/2 bg-linear-to-b from-transparent via-ink/40 to-ink" />
+      <div className="absolute inset-x-0 bottom-0 -z-10 h-1/2 bg-linear-to-b from-transparent via-dusk/40 to-dusk" />
 
       <div className="shell reveal pt-28 md:pt-40">
         <h2 className="display text-[clamp(3.5rem,8.5vw,8.5rem)]">Ready to be seen?</h2>

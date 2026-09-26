@@ -14,11 +14,24 @@ npm run build
 |----------------------------------------|-------------------------------|
 | Brand name, contact details, nav       | `src/config/site.ts`          |
 | Services and industries                | `src/config/services.ts`      |
-| Colours, type, motion                  | `src/app/globals.css`         |
-| Photos (graded, 2400px max)            | `src/assets/photos/`          |
+| Colour themes (Golden Hour, Open Sky)  | `src/config/themes.json`, switch in `src/config/theme.ts` |
+| Type, motion, layout utilities         | `src/app/globals.css`         |
+| Photos used by the site (generated)    | `src/assets/photos/`          |
+| Original photos, fonts for the logo    | `brand/`                      |
 | Logo on the site (key + name)          | `src/components/brand/`       |
 | Favicon, app icon, share image         | `src/app/` (`icon.svg`, `favicon.ico`, `apple-icon.png`, `opengraph-image.jpg`) |
 | Logo files for social media and print  | `logo/` (profile pictures, posts, transparent PNGs, SVG) |
+
+## Switching the colour theme
+
+The site has two themes: **Golden Hour** (orange, current) and **Open Sky** (the original blue).
+
+1. In `src/config/theme.ts`, change `THEME` to `"golden"` or `"blue"`.
+2. Run `npm run brand`. It recolours the photos, the favicon/app icon, the share image
+   and every file in `logo/` (about 5 seconds).
+3. Commit and push. Vercel redeploys automatically.
+
+The original blue site is also bookmarked in git as the tag `theme-blue`.
 
 ## Before launch
 

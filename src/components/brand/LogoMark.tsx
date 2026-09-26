@@ -1,7 +1,7 @@
 import { cn } from "@/lib/cn";
 
 // The key: ring, shaft and two equal teeth with a short tail below.
-// Keep in sync with src/app/icon.svg and the files in logo/.
+// scripts/brand.mjs draws the same key for the icons and logo/ files — keep BODY in sync.
 export const KEY_RING = { cx: 15, cy: 12, r: 9, strokeWidth: 6 };
 export const KEY_BODY = "M11.75 20h6.5V42H26v6h-7.75v5H26v6h-7.75V64h-6.5z";
 

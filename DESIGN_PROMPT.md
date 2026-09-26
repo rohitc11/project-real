@@ -26,16 +26,21 @@ Brand line: **Built to be seen.**
 
 ## Look & feel
 
-**Colours** (sampled from the photos)
+**Colours: "Golden Hour"** (chosen 2026-09-26; warm sunset tones against the blue glass)
 
 | Role            | Hex       | Use                                   |
 |-----------------|-----------|---------------------------------------|
-| Cloud           | `#F6F9FB` | Main page background                  |
-| Sky             | `#E3ECF5` | Soft section backgrounds              |
-| Haze            | `#BED3E0` | Hairlines, dividers, hover tints      |
-| Glass           | `#2B6B95` | The one accent: links, focus, details |
-| Ink             | `#0F1D26` | Text, primary buttons, footer         |
-| Steel           | `#5A6975` | Secondary text                        |
+| Cloud           | `#FFF7F0` | Main page background                  |
+| Sky             | `#FFE9D9` | Soft section backgrounds              |
+| Haze            | `#F3C9A9` | Hairlines, dividers, hover tints      |
+| Orange          | `#F25C05` | The one accent: buttons, logo key, highlights |
+| Orange (text)   | `#B8430B` | Orange for small text (labels, links) |
+| Ink             | `#221A2E` | Text and the dusk footer (deep plum)  |
+| Steel           | `#6E5E5A` | Secondary text                        |
+
+The original blue palette is kept as the `blue` theme in `src/config/themes.json` (see README → Switching the colour theme).
+
+Photos carry a warm "golden hour" grade (sepia 0.35, saturation 1.15, brightness 1.03), baked into the files.
 
 **Signature device, day to dusk:** the page background shifts slowly with scroll,
 from Cloud at the top to Sky in the middle and deep Ink at the footer, as if the
@@ -48,7 +53,7 @@ day turns to evening as you scroll down.
 
 **Shapes**
 - Photos are always full-bleed or crisp rectangles: no rounded corners and no shadows, just like architecture.
-- Primary button: Ink pill with white text. Secondary: text with arrow and underline that draws in on hover.
+- Primary button: Orange pill with Ink text; turns Ink on hover. Secondary: text with arrow and underline that draws in on hover.
 - Hairline dividers in Haze, 1px.
 
 **Motion** (slow and smooth, nothing bouncy)

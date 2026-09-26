@@ -1,19 +1,19 @@
 import { Logo } from "@/components/brand/Logo";
 import { SITE, emailUrl, phoneUrl, whatsappUrl } from "@/config/site";
 
-const linkClass = "transition-colors hover:text-cloud";
+const linkClass = "transition-colors hover:text-footer-fg";
 
 // Deep ink — the "dusk" at the end of every page.
 export function Footer() {
   return (
-    <footer className="bg-ink text-cloud">
+    <footer className="bg-footer text-footer-fg">
       <div className="shell py-16 md:py-20">
         <div className="flex flex-col gap-12 md:flex-row md:items-end md:justify-between">
           <div>
-            <Logo className="text-3xl" />
-            <p className="mt-3 text-cloud/55">{SITE.tagline}</p>
+            <Logo className="text-3xl" keyClassName="text-footer-key" />
+            <p className="mt-3 text-footer-fg/70">{SITE.tagline}</p>
           </div>
-          <ul className="flex flex-col gap-2 text-lg text-cloud/80 md:items-end">
+          <ul className="flex flex-col gap-2 text-lg text-footer-fg/85 md:items-end">
             <li>
               <a href={emailUrl} className={linkClass}>
                 {SITE.email}
@@ -27,7 +27,7 @@ export function Footer() {
           </ul>
         </div>
 
-        <div className="mt-16 flex flex-col-reverse gap-6 border-t border-cloud/15 pt-6 text-sm text-cloud/55 md:flex-row md:justify-between">
+        <div className="mt-16 flex flex-col-reverse gap-6 border-t border-footer-fg/20 pt-6 text-sm text-footer-fg/70 md:flex-row md:justify-between">
           <p>
             © {new Date().getFullYear()} {SITE.name}
           </p>

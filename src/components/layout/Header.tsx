@@ -66,8 +66,8 @@ export function Header() {
                       href={item.href}
                       aria-current={active ? "page" : undefined}
                       className={cn(
-                        "block rounded-full px-4 py-2 text-[0.95rem] transition-colors hover:text-glass",
-                        active && "text-glass",
+                        "block rounded-full px-4 py-2 text-[0.95rem] transition-colors hover:text-accent-text",
+                        active && "text-accent-text",
                       )}
                     >
                       {item.label}

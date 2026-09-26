@@ -10,7 +10,7 @@ import { cn } from "@/lib/cn";
 const initialState: ContactState = { status: "idle" };
 
 const fieldClass =
-  "mt-3 block w-full border-0 border-b border-haze bg-transparent px-0 py-3 text-xl outline-none transition-colors placeholder:text-steel/50 focus:border-glass focus-visible:outline-none";
+  "mt-3 block w-full border-0 border-b border-haze bg-transparent px-0 py-3 text-xl outline-none transition-colors placeholder:text-steel/50 focus:border-accent-text focus-visible:outline-none";
 
 export function ContactForm() {
   const [state, formAction, pending] = useActionState(sendEnquiry, initialState);
@@ -18,7 +18,7 @@ export function ContactForm() {
   if (state.status === "sent") {
     return (
       <div role="status" className="animate-fade-up border-t border-haze pt-10">
-        <p className="caps text-glass">Sent</p>
+        <p className="caps text-accent-text">Sent</p>
         <p className="display mt-6 text-[clamp(2.5rem,5vw,4rem)]">Thanks — we’ll be in touch.</p>
       </div>
     );
@@ -43,7 +43,7 @@ export function ContactForm() {
           className={fieldClass}
         />
         {state.errors?.name && (
-          <p id="name-error" className="mt-2 text-sm text-glass">
+          <p id="name-error" className="mt-2 text-sm text-accent-text">
             {state.errors.name}
           </p>
         )}
@@ -64,7 +64,7 @@ export function ContactForm() {
           className={fieldClass}
         />
         {state.errors?.contact && (
-          <p id="contact-error" className="mt-2 text-sm text-glass">
+          <p id="contact-error" className="mt-2 text-sm text-accent-text">
             {state.errors.contact}
           </p>
         )}
@@ -82,7 +82,7 @@ export function ContactForm() {
                 defaultChecked={v?.needs.includes(service.name)}
                 className="peer sr-only"
               />
-              <span className="block rounded-full border border-haze px-4 py-2 transition-colors peer-checked:border-ink peer-checked:bg-ink peer-checked:text-cloud peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-glass hover:border-ink">
+              <span className="block rounded-full border border-haze px-4 py-2 transition-colors peer-checked:border-ink peer-checked:bg-ink peer-checked:text-cloud peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-accent-text hover:border-ink">
                 {service.name}
               </span>
             </label>
@@ -115,13 +115,13 @@ export function ContactForm() {
         <button
           type="submit"
           disabled={pending}
-          className="group inline-flex items-center gap-2.5 rounded-full bg-ink px-7 py-4 font-medium text-cloud transition-colors duration-300 hover:bg-glass disabled:opacity-60"
+          className="group inline-flex items-center gap-2.5 rounded-full bg-btn px-7 py-4 font-medium text-btn-fg transition-colors duration-300 hover:bg-btn-hover hover:text-btn-hover-fg disabled:opacity-60"
         >
           {pending ? "Sending…" : "Send"}
           <Arrow className="group-hover:translate-x-1" />
         </button>
         {state.message && (
-          <p role="alert" className="text-glass">
+          <p role="alert" className="text-accent-text">
             {state.message}
           </p>
         )}

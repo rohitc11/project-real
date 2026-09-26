@@ -11,7 +11,7 @@ type Props = {
 };
 
 const VARIANTS = {
-  solid: "rounded-full bg-ink text-cloud hover:bg-glass",
+  solid: "rounded-full bg-btn text-btn-fg hover:bg-btn-hover hover:text-btn-hover-fg",
   outline: "rounded-full ring-1 ring-inset ring-ink/25 hover:ring-ink",
   quiet: "",
 };

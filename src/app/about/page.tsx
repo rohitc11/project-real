@@ -15,7 +15,7 @@ export default function AboutPage() {
   return (
     <>
       <section className="shell pt-40 pb-16 md:pt-52 md:pb-24">
-        <p className="caps animate-fade-up text-glass">About</p>
+        <p className="caps animate-fade-up text-accent-text">About</p>
         <h1 className="display mt-6 max-w-[13ch] animate-fade-up text-[clamp(3.25rem,8vw,8rem)] [animation-delay:150ms]">
           Marketing with a builder’s mindset.
         </h1>

@@ -1,0 +1,56 @@
+{
+  "golden": {
+    "name": "Golden Hour",
+    "colors": {
+      "cloud": "#fff7f0",
+      "sky": "#ffe9d9",
+      "haze": "#f3c9a9",
+      "ink": "#221a2e",
+      "steel": "#6e5e5a",
+      "accent": "#f25c05",
+      "accentText": "#b8430b"
+    },
+    "roles": {
+      "btn": "accent",
+      "btnFg": "ink",
+      "btnHover": "ink",
+      "btnHoverFg": "cloud",
+      "key": "accent",
+      "statement": "transparent",
+      "statementFg": "ink",
+      "statementEm": "accent",
+      "footer": "ink",
+      "footerFg": "cloud",
+      "footerKey": "accent",
+      "dusk": "ink"
+    },
+    "photoGrade": [0.89238, 0.20954, 0.06194, 0.10422, 0.94506, 0.05324, 0.07229, 0.11212, 0.80782]
+  },
+  "blue": {
+    "name": "Open Sky",
+    "colors": {
+      "cloud": "#f6f9fb",
+      "sky": "#e3ecf5",
+      "haze": "#bed3e0",
+      "ink": "#0f1d26",
+      "steel": "#5a6975",
+      "accent": "#2b6b95",
+      "accentText": "#2b6b95"
+    },
+    "roles": {
+      "btn": "ink",
+      "btnFg": "cloud",
+      "btnHover": "accent",
+      "btnHoverFg": "cloud",
+      "key": "ink",
+      "statement": "transparent",
+      "statementFg": "ink",
+      "statementEm": "accent",
+      "footer": "ink",
+      "footerFg": "cloud",
+      "footerKey": "cloud",
+      "dusk": "ink"
+    },
+    "photoGrade": null
+  }
+}
