@@ -1,63 +1,38 @@
-import { BRAND } from "./brand";
-import { SERVICES } from "./services";
+// The brand name lives here and nowhere else — a rename is a one-line change.
+const NAME = "Keyturn Media";
 
-export type NavItem = {
-  label: string;
-  href: string;
-  /** Rendered as a mega-menu / sub-list where the layout supports it. */
-  children?: { label: string; href: string; description?: string }[];
-};
+function siteUrl() {
+  if (process.env.NEXT_PUBLIC_SITE_URL) {
+    return process.env.NEXT_PUBLIC_SITE_URL.replace(/\/$/, "");
+  }
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`;
+  }
+  return "http://localhost:3000";
+}
 
-export const NAV: NavItem[] = [
-  {
-    label: "Services",
-    href: "/services",
-    children: SERVICES.map((service) => ({
-      label: service.title,
-      href: `/services/${service.slug}`,
-      description: service.short,
-    })),
+export const SITE = {
+  name: NAME,
+  tagline: "Built to be seen.",
+  description: "Real estate and brand marketing.",
+  url: siteUrl(),
+
+  // PLACEHOLDER — every contact detail below must be replaced before launch.
+  email: "hello@example.com",
+  phone: "+1 555 010 2030",
+  whatsapp: "15550102030", // digits only, with country code
+  social: {
+    instagram: "https://instagram.com/",
+    linkedin: "https://linkedin.com/",
   },
-  { label: "Work", href: "/work" },
-  { label: "Process", href: "/process" },
-  { label: "About", href: "/about" },
-];
-
-/** The single primary call to action, reused across header, hero and footer. */
-export const PRIMARY_CTA = { label: "Book a call", href: "/contact" };
-export const SECONDARY_CTA = { label: "See the work", href: "/work" };
-
-export const FOOTER_COLUMNS: { heading: string; links: { label: string; href: string }[] }[] = [
-  {
-    heading: "Services",
-    links: SERVICES.map((service) => ({
-      label: service.title,
-      href: `/services/${service.slug}`,
-    })),
-  },
-  {
-    heading: "Company",
-    links: [
-      { label: "About", href: "/about" },
-      { label: "Process", href: "/process" },
-      { label: "Work", href: "/work" },
-      { label: "Contact", href: "/contact" },
-    ],
-  },
-  {
-    heading: "Legal",
-    links: [
-      { label: "Privacy policy", href: "/privacy" },
-      { label: "Terms of use", href: "/terms" },
-    ],
-  },
-];
-
-/** Defaults consumed by `generateMetadata` and the root layout. */
-export const SEO = {
-  titleTemplate: `%s — ${BRAND.name}`,
-  defaultTitle: `${BRAND.name} — ${BRAND.tagline}`,
-  description: BRAND.description,
-  locale: "en_IN",
-  ogImage: "/opengraph-image",
 } as const;
+
+export const NAV = [
+  { label: "Services", href: "/services" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
+] as const;
+
+export const whatsappUrl = `https://wa.me/${SITE.whatsapp}`;
+export const emailUrl = `mailto:${SITE.email}`;
+export const phoneUrl = `tel:${SITE.phone.replace(/[^\d+]/g, "")}`;

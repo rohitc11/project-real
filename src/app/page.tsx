@@ -1,21 +1,21 @@
-import { Hero } from "@/components/sections/Hero";
-import { ServicesOverview } from "@/components/sections/ServicesOverview";
-import { SelectedWork } from "@/components/sections/SelectedWork";
-import { ProcessOverview } from "@/components/sections/ProcessOverview";
-import { Industries } from "@/components/sections/Industries";
-import { Testimonials } from "@/components/sections/Testimonials";
-import { CtaBand } from "@/components/sections/CtaBand";
+import { Beyond } from "@/components/home/Beyond";
+import { Hero } from "@/components/home/Hero";
+import { Process } from "@/components/home/Process";
+import { Skyline } from "@/components/home/Skyline";
+import { Spotlight } from "@/components/home/Spotlight";
+import { Statement } from "@/components/home/Statement";
+import { FinalCall } from "@/components/sections/FinalCall";
 
-export default function HomePage() {
+export default function Home() {
   return (
     <>
       <Hero />
-      <ServicesOverview />
-      <SelectedWork />
-      <ProcessOverview />
-      <Industries />
-      <Testimonials />
-      <CtaBand />
+      <Statement />
+      <Skyline />
+      <Spotlight />
+      <Beyond />
+      <Process />
+      <FinalCall />
     </>
   );
 }

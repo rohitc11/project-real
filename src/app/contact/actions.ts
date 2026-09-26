@@ -1,122 +1,85 @@
 "use server";
 
-import { BRAND } from "@/config/brand";
+import { SERVICES } from "@/config/services";
+import { SITE } from "@/config/site";
+
+type Field = "name" | "contact";
 
 export type ContactState = {
-  status: "idle" | "success" | "error";
+  status: "idle" | "sent" | "error";
   message?: string;
-  fieldErrors?: Partial<Record<"name" | "email" | "message", string>>;
+  errors?: Partial<Record<Field, string>>;
+  /** Echoed back so a failed submit doesn't wipe what was typed. */
+  values?: { name: string; contact: string; needs: string[]; message: string };
 };
 
-export const initialContactState: ContactState = { status: "idle" };
+const isEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+const isPhone = (v: string) => /^[+\d\s().-]+$/.test(v) && v.replace(/\D/g, "").length >= 7;
 
-const MAX = { name: 120, email: 200, company: 160, phone: 40, message: 4000 } as const;
+export async function sendEnquiry(_prev: ContactState, formData: FormData): Promise<ContactState> {
+  // Honeypot: real people never see this field.
+  if (formData.get("website")) return { status: "sent" };
 
-const isEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value);
+  const serviceNames = new Set(SERVICES.map((s) => s.name));
+  const values = {
+    name: String(formData.get("name") ?? "").trim().slice(0, 120),
+    contact: String(formData.get("contact") ?? "").trim().slice(0, 160),
+    needs: formData.getAll("needs").map(String).filter((n) => serviceNames.has(n)),
+    message: String(formData.get("message") ?? "").trim().slice(0, 4000),
+  };
 
-const field = (data: FormData, key: string, limit: number) =>
-  String(data.get(key) ?? "")
-    .trim()
-    .slice(0, limit);
-
-/**
- * Handles the enquiry form.
- *
- * Email delivery uses the Resend REST API directly — no SDK, so the server
- * bundle stays small. Required environment variables:
- *
- *   RESEND_API_KEY     – from resend.com
- *   CONTACT_TO_EMAIL   – optional, defaults to BRAND.email.general
- *   CONTACT_FROM_EMAIL – optional, must be a verified Resend sender
- *
- * Without RESEND_API_KEY the enquiry is logged to the server console in
- * development, and rejected with a visible error in production so that leads
- * are never silently dropped.
- */
-export async function submitEnquiry(
-  _prev: ContactState,
-  formData: FormData,
-): Promise<ContactState> {
-  // Honeypot — real people never fill a hidden field.
-  if (field(formData, "website", 100)) {
-    return { status: "success", message: "Thanks — we'll be in touch shortly." };
+  const errors: ContactState["errors"] = {};
+  if (!values.name) errors.name = "Please add your name.";
+  if (!isEmail(values.contact) && !isPhone(values.contact)) {
+    errors.contact = "Add an email or phone number.";
   }
+  if (Object.keys(errors).length) return { status: "error", errors, values };
 
-  const name = field(formData, "name", MAX.name);
-  const email = field(formData, "email", MAX.email);
-  const company = field(formData, "company", MAX.company);
-  const phone = field(formData, "phone", MAX.phone);
-  const budget = field(formData, "budget", 60);
-  const message = field(formData, "message", MAX.message);
-
-  const fieldErrors: ContactState["fieldErrors"] = {};
-  if (name.length < 2) fieldErrors.name = "Please tell us your name.";
-  if (!isEmail(email)) fieldErrors.email = "Please enter a valid email address.";
-  if (message.length < 10) fieldErrors.message = "A sentence or two is plenty.";
-
-  if (Object.keys(fieldErrors).length > 0) {
-    return { status: "error", message: "Please check the highlighted fields.", fieldErrors };
-  }
-
-  const apiKey = process.env.RESEND_API_KEY;
-  const to = process.env.CONTACT_TO_EMAIL || BRAND.email.general;
-  const from = process.env.CONTACT_FROM_EMAIL || `${BRAND.name} <onboarding@resend.dev>`;
-
-  const body = [
-    `Name:    ${name}`,
-    `Email:   ${email}`,
-    company && `Company: ${company}`,
-    phone && `Phone:   ${phone}`,
-    budget && `Budget:  ${budget}`,
+  const text = [
+    `Name: ${values.name}`,
+    `Contact: ${values.contact}`,
+    `Needs: ${values.needs.join(", ") || "—"}`,
     "",
-    message,
-  ]
-    .filter(Boolean)
-    .join("\n");
+    values.message || "(no message)",
+  ].join("\n");
 
-  if (!apiKey) {
-    if (process.env.NODE_ENV === "production") {
-      console.error("[contact] RESEND_API_KEY is not set — enquiry was not delivered.");
-      return {
-        status: "error",
-        message: `Our form is temporarily unavailable. Please email ${BRAND.email.general} or message us on WhatsApp.`,
-      };
+  const { RESEND_API_KEY, CONTACT_TO, CONTACT_FROM } = process.env;
+  if (!RESEND_API_KEY || !CONTACT_TO || !CONTACT_FROM) {
+    if (process.env.NODE_ENV !== "production") {
+      console.info("[contact] Email not configured — enquiry would have been sent:\n" + text);
+      return { status: "sent" };
     }
-
-    console.warn("[contact] RESEND_API_KEY not set. Enquiry logged instead of sent:\n" + body);
-    return { status: "success", message: "Thanks — we'll be in touch within one working day." };
+    return {
+      status: "error",
+      message: "Our form isn’t connected yet. Please WhatsApp or email us.",
+      values,
+    };
   }
 
   try {
-    const response = await fetch("https://api.resend.com/emails", {
+    const res = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${apiKey}`,
+        Authorization: `Bearer ${RESEND_API_KEY}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from,
-        to: [to],
-        reply_to: email,
-        subject: `New enquiry — ${name}${company ? ` (${company})` : ""}`,
-        text: body,
+        from: CONTACT_FROM,
+        to: CONTACT_TO.split(",").map((s) => s.trim()),
+        subject: `New enquiry from ${values.name} — ${SITE.name}`,
+        text,
+        ...(isEmail(values.contact) && { reply_to: values.contact }),
       }),
     });
-
-    if (!response.ok) {
-      console.error("[contact] Resend rejected the request:", response.status, await response.text());
-      return {
-        status: "error",
-        message: `We couldn't send that. Please email ${BRAND.email.general} directly.`,
-      };
-    }
-
-    return { status: "success", message: "Thanks — we'll be in touch within one working day." };
-  } catch (error) {
-    console.error("[contact] Delivery failed:", error);
+    if (!res.ok) throw new Error(`Resend responded ${res.status}: ${await res.text()}`);
+  } catch (err) {
+    console.error("[contact] Failed to send enquiry", err);
     return {
       status: "error",
-      message: `We couldn't send that. Please email ${BRAND.email.general} directly.`,
+      message: "Something went wrong. Please WhatsApp or email us.",
+      values,
     };
   }
+
+  return { status: "sent" };
 }

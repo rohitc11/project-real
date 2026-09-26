@@ -1,84 +1,41 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo, IBM_Plex_Mono } from "next/font/google";
+import { Hanken_Grotesk } from "next/font/google";
+
+import { Footer } from "@/components/layout/Footer";
+import { Header } from "@/components/layout/Header";
+import { SITE } from "@/config/site";
 import "./globals.css";
 
-import { BRAND, siteUrl } from "@/config/brand";
-import { SEO } from "@/config/site";
-import { THEME, themeColors } from "@/config/theme";
-import { Header } from "@/components/layout/Header";
-import { Footer } from "@/components/layout/Footer";
-import { FloatingContact } from "@/components/layout/FloatingContact";
-import { StructuredData } from "@/components/layout/StructuredData";
-
-/** Archivo carries a width axis; the display roles expand it to 118%. */
-const sans = Archivo({
-  variable: "--font-sans-family",
+const hanken = Hanken_Grotesk({
   subsets: ["latin"],
-  axes: ["wdth"],
-  display: "swap",
-});
-
-/** Every annotation, dimension and sheet reference on the site. */
-const mono = IBM_Plex_Mono({
-  variable: "--font-mono-family",
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  display: "swap",
+  variable: "--font-hanken",
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
+  metadataBase: new URL(SITE.url),
   title: {
-    default: SEO.defaultTitle,
-    template: SEO.titleTemplate,
+    default: `${SITE.name} — ${SITE.tagline}`,
+    template: `%s — ${SITE.name}`,
   },
-  description: SEO.description,
-  applicationName: BRAND.name,
-  authors: [{ name: BRAND.name, url: siteUrl }],
-  creator: BRAND.name,
-  publisher: BRAND.legalName,
+  description: SITE.description,
   openGraph: {
+    siteName: SITE.name,
     type: "website",
-    siteName: BRAND.name,
-    title: SEO.defaultTitle,
-    description: SEO.description,
-    url: siteUrl,
-    locale: SEO.locale,
+    locale: "en",
   },
-  twitter: {
-    card: "summary_large_image",
-    title: SEO.defaultTitle,
-    description: SEO.description,
-  },
-  robots: { index: true, follow: true },
 };
 
 export const viewport: Viewport = {
-  themeColor: themeColors.background,
-  colorScheme: THEME,
+  themeColor: "#f6f9fb",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html
-      lang="en"
-      data-theme={THEME}
-      className={`${sans.variable} ${mono.variable} h-full`}
-    >
-      <body className="flex min-h-full flex-col bg-ground text-ink">
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-medium focus:text-accent-ink"
-        >
-          Skip to content
-        </a>
+    <html lang="en" className={hanken.variable}>
+      <body className="font-sans">
         <Header />
-        <main id="main" className="flex-1">
-          {children}
-        </main>
+        <main>{children}</main>
         <Footer />
-        <FloatingContact />
-        <StructuredData />
       </body>
     </html>
   );

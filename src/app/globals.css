@@ -1,301 +1,166 @@
 @import "tailwindcss";
 
-/* ==================================================================
-   DESIGN TOKENS — PAPER (light, default)
-
-   Visual direction: "Site Plan". The page is organised like an
-   architectural drawing set — survey grid, dimension lines, a drawing
-   schedule in place of a services list, a title block for a footer.
-
-   Naming note: `ink` means drawn line, not page background. The page
-   ground is `ground`, raised surfaces are `paper`.
-   ================================================================== */
+/* Palette sampled from the photography — see DESIGN_PROMPT.md. */
 :root {
-  --brand-ground: #e9ece6;
-  --brand-paper: #f2f4ef;
-  --brand-wash: #e7e3db;
-
-  --brand-ink: #16261e;
-  --brand-muted: #515d54;
-
-  --brand-line: #c1cabd;
-  --brand-line-soft: #d6dcd2;
-
-  /* Survey orange. Split in two: `accent` is for display type, rules and
-     marks (large, so 3:1 applies); `accent-deep` is for anything set small,
-     where 4.5:1 applies. Both were measured against ground, paper and wash. */
-  --brand-accent: #c2471a;
-  --brand-accent-deep: #a83a11;
-  --brand-accent-ink: #ffffff;
-
-  --brand-positive: #2f6b45;
-  --brand-negative: #a8321b;
-
-  --brand-tint: rgb(194 71 26 / 0.055);
-  --brand-shadow: rgb(22 38 30 / 0.07);
-  --brand-shadow-strong: rgb(22 38 30 / 0.16);
-  --brand-scrim: rgb(233 236 230 / 0.9);
-  --brand-grid: rgb(22 38 30 / 0.055);
-
-  --brand-radius-xs: 0px;
-  --brand-radius-sm: 2px;
-  --brand-radius-md: 3px;
-
-  --brand-ease: cubic-bezier(0.2, 0.8, 0.3, 1);
-  --brand-duration: 520ms;
-
-  color-scheme: light;
-}
-
-/* ==================================================================
-   DESIGN TOKENS — BLUEPRINT (dark)
-   ================================================================== */
-[data-theme="dark"] {
-  --brand-ground: #0b1a24;
-  --brand-paper: #102431;
-  --brand-wash: #16303f;
-
-  --brand-ink: #e3edf3;
-  --brand-muted: #8ea7b5;
-
-  --brand-line: #23394a;
-  --brand-line-soft: #1a2c3a;
-
-  --brand-accent: #f2794c;
-  --brand-accent-deep: #f2794c;
-  --brand-accent-ink: #0b1a24;
-
-  --brand-positive: #5fbf8e;
-  --brand-negative: #e57a5e;
-
-  --brand-tint: rgb(242 121 76 / 0.09);
-  --brand-shadow: rgb(0 0 0 / 0.4);
-  --brand-shadow-strong: rgb(0 0 0 / 0.6);
-  --brand-scrim: rgb(11 26 36 / 0.9);
-  --brand-grid: rgb(227 237 243 / 0.06);
-
-  color-scheme: dark;
+  --cloud: #f6f9fb;
+  --sky: #e3ecf5;
+  --haze: #bed3e0;
+  --glass: #2b6b95;
+  --ink: #0f1d26;
+  --steel: #5a6975;
 }
 
 @theme inline {
-  --color-ground: var(--brand-ground);
-  --color-paper: var(--brand-paper);
-  --color-wash: var(--brand-wash);
+  --color-cloud: var(--cloud);
+  --color-sky: var(--sky);
+  --color-haze: var(--haze);
+  --color-glass: var(--glass);
+  --color-ink: var(--ink);
+  --color-steel: var(--steel);
 
-  --color-ink: var(--brand-ink);
-  --color-muted: var(--brand-muted);
+  --font-sans: var(--font-hanken), ui-sans-serif, system-ui, sans-serif;
 
-  --color-line: var(--brand-line);
-  --color-line-soft: var(--brand-line-soft);
+  --ease-soft: cubic-bezier(0.2, 0.7, 0.2, 1);
 
-  --color-accent: var(--brand-accent);
-  --color-accent-deep: var(--brand-accent-deep);
-  --color-accent-ink: var(--brand-accent-ink);
+  --animate-settle: settle 1.6s var(--ease-soft) both;
+  --animate-fade-up: fade-up 0.9s var(--ease-soft) both;
 
-  --font-sans: var(--font-sans-family), system-ui, -apple-system, sans-serif;
-  --font-mono: var(--font-mono-family), ui-monospace, SFMono-Regular, Menlo, monospace;
-
-  --radius-xs: var(--brand-radius-xs);
-  --radius-sm: var(--brand-radius-sm);
-  --radius-md: var(--brand-radius-md);
+  @keyframes settle {
+    from { scale: 1.08; }
+    to { scale: 1; }
+  }
+  @keyframes fade-up {
+    from { opacity: 0; translate: 0 16px; }
+    to { opacity: 1; translate: 0 0; }
+  }
 }
 
-/* ==================================================================
-   BASE
-   ================================================================== */
 @layer base {
   html {
-    scroll-behavior: smooth;
-    -webkit-text-size-adjust: 100%;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
-  }
-
-  body {
-    background-color: var(--brand-ground);
-    color: var(--brand-ink);
-    font-family: var(--font-sans);
+    background: var(--cloud);
+    color: var(--ink);
     -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
   }
-
+  body {
+    background: var(--cloud);
+    font-size: 1.0625rem;
+    line-height: 1.55;
+  }
   ::selection {
-    background-color: var(--brand-accent);
-    color: var(--brand-accent-ink);
+    background: var(--glass);
+    color: var(--cloud);
   }
-
   :focus-visible {
-    outline: 2px solid var(--brand-accent-deep);
-    outline-offset: 2px;
-    border-radius: 0;
-  }
-
-  ::-webkit-scrollbar {
-    width: 11px;
-    height: 11px;
-  }
-  ::-webkit-scrollbar-track {
-    background: var(--brand-ground);
-    border-left: 1px solid var(--brand-line-soft);
-  }
-  ::-webkit-scrollbar-thumb {
-    background: var(--brand-line);
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: var(--brand-muted);
+    outline: 2px solid var(--glass);
+    outline-offset: 3px;
   }
 }
 
-/* ==================================================================
-   TYPE ROLES
-   Archivo carries a width axis. Expanding it for display type is what
-   makes the headings read as drafted rather than merely large.
-   ================================================================== */
-@layer components {
-  .type-display {
-    font-family: var(--font-sans);
-    font-weight: 800;
-    font-stretch: 118%;
-    line-height: 0.92;
-    letter-spacing: -0.035em;
-    text-wrap: balance;
-  }
+/* Page width + side gutters. */
+@utility shell {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 90rem;
+  padding-inline: 1rem;
+  @media (width >= 40rem) { padding-inline: 2rem; }
+  @media (width >= 64rem) { padding-inline: 3rem; }
+}
 
-  .type-title {
-    font-family: var(--font-sans);
-    font-weight: 700;
-    font-stretch: 108%;
-    line-height: 1.04;
-    letter-spacing: -0.02em;
-    text-wrap: balance;
-  }
+/* Large light headlines. */
+@utility display {
+  font-weight: 300;
+  letter-spacing: -0.035em;
+  line-height: 0.95;
+  text-wrap: balance;
+}
 
-  /* Every annotation, sheet reference, dimension and label on the site. */
-  .type-note {
-    font-family: var(--font-mono);
-    font-size: 0.65625rem;
-    font-weight: 500;
-    letter-spacing: 0.13em;
-    text-transform: uppercase;
-    line-height: 1.5;
-  }
+/* Small uppercase labels. */
+@utility caps {
+  font-size: 0.75rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  line-height: 1;
+  text-transform: uppercase;
+}
 
-  .type-data {
-    font-family: var(--font-mono);
-    font-variant-numeric: tabular-nums;
-    letter-spacing: -0.01em;
-  }
+/* Hero headline: each word rises out of its own mask. */
+.hero-word > span {
+  display: inline-block;
+  animation: rise 1s var(--ease-soft) both;
+  animation-delay: calc(250ms + var(--i) * 90ms);
+}
 
-  /* ================================================================
-     DRAWING DEVICES
-     ================================================================ */
+@keyframes rise {
+  from { translate: 0 105%; }
+  to { translate: 0 0; }
+}
 
-  /* Survey grid. Fades downward so it reads as a drawing ground rather
-     than a texture stamped over the whole page. */
-  .survey-grid::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    background-image:
-      repeating-linear-gradient(to right, var(--brand-grid) 0 1px, transparent 1px 48px),
-      repeating-linear-gradient(to bottom, var(--brand-grid) 0 1px, transparent 1px 48px);
-    mask-image: linear-gradient(to bottom, #000 0%, #000 45%, transparent 100%);
-  }
+/* Industries line drifting sideways. */
+.marquee {
+  mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent);
+}
+.marquee-track {
+  animation: marquee 45s linear infinite;
+}
+@keyframes marquee {
+  to { translate: -50% 0; }
+}
 
-  /* Sheet strip — the metadata bar that opens a drawing. */
-  .sheet-strip {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.375rem 1.375rem;
-    padding-block: 0.75rem;
-    border-bottom: 1px solid var(--brand-line);
-    color: var(--brand-muted);
-  }
+/* Scroll-linked motion. Browsers without scroll timelines simply show
+   everything in place. */
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    /* Day to dusk: the page background deepens as you scroll. */
+    body {
+      animation: day-to-dusk linear both;
+      animation-timeline: scroll(root);
+    }
 
-  /* Dimension line — the signature device. Any before/after claim is
-     drawn to scale with tick marks and a unit. */
-  .dim-line {
-    flex: 1;
-    height: 1px;
-    background: currentColor;
-    position: relative;
-    min-width: 2rem;
-  }
-  .dim-line::before,
-  .dim-line::after {
-    content: "";
-    position: absolute;
-    top: -4px;
-    width: 1px;
-    height: 9px;
-    background: currentColor;
-  }
-  .dim-line::before {
-    left: 0;
-  }
-  .dim-line::after {
-    right: 0;
-  }
+    /* Hero photo drifts slower than the page, like a camera tilting up. */
+    .drift {
+      animation: drift linear both;
+      animation-timeline: scroll(root);
+      animation-range: 0 100vh;
+    }
 
-  /* Corner ticks, used on plates that should read as a drawn frame. */
-  .corner-ticks {
-    position: relative;
-  }
-  .corner-ticks::before,
-  .corner-ticks::after {
-    content: "";
-    position: absolute;
-    width: 9px;
-    height: 9px;
-    border-color: var(--brand-accent);
-    border-style: solid;
-    pointer-events: none;
-  }
-  .corner-ticks::before {
-    top: -1px;
-    left: -1px;
-    border-width: 1px 0 0 1px;
-  }
-  .corner-ticks::after {
-    bottom: -1px;
-    right: -1px;
-    border-width: 0 1px 1px 0;
-  }
-
-  /* Scroll reveal. Short travel — drafted elements should settle, not float. */
-  .reveal {
-    opacity: 0;
-    transform: translateY(10px);
-    transition:
-      opacity var(--brand-duration) var(--brand-ease),
-      transform var(--brand-duration) var(--brand-ease);
-    transition-delay: var(--reveal-delay, 0ms);
-  }
-
-  .reveal[data-visible="true"] {
-    opacity: 1;
-    transform: none;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
     .reveal {
-      opacity: 1;
-      transform: none;
-      transition: none;
+      animation: fade-up linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 70%;
+    }
+
+    /* Skyline panels rise into place one after another. */
+    .rise {
+      animation: rise-panel linear both;
+      animation-timeline: view();
+      animation-range: entry var(--rise-start, 0%) cover 30%;
     }
   }
 }
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
+@keyframes day-to-dusk {
+  from { background-color: var(--cloud); }
+  60% { background-color: var(--sky); }
+  to { background-color: var(--sky); }
+}
+@keyframes drift {
+  to { translate: 0 22%; }
+}
+@keyframes rise-panel {
+  from { opacity: 0; translate: 0 18%; }
+  to { opacity: 1; translate: 0 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
-  .text-pretty {
-    text-wrap: pretty;
+  .marquee-track {
+    animation: none;
   }
 }

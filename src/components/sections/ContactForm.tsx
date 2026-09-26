@@ -1,178 +1,130 @@
 "use client";
 
 import { useActionState } from "react";
-import { useFormStatus } from "react-dom";
 
-import { Button, ArrowRight } from "@/components/ui/Button";
-import { initialContactState, submitEnquiry } from "@/app/contact/actions";
+import { sendEnquiry, type ContactState } from "@/app/contact/actions";
+import { Arrow } from "@/components/ui/ButtonLink";
+import { SERVICES } from "@/config/services";
 import { cn } from "@/lib/cn";
 
-/* Square-cornered fields with a drawn border — the form is a document, not a card. */
-const inputClasses =
-  "w-full border border-line bg-paper px-3.5 py-3 text-sm text-ink placeholder:text-muted/70 transition-colors duration-200 focus:border-ink focus:outline-none";
+const initialState: ContactState = { status: "idle" };
 
-const BUDGETS = [
-  "Under ₹1L / month",
-  "₹1–3L / month",
-  "₹3–8L / month",
-  "₹8L+ / month",
-  "Project based",
-];
-
-function SubmitButton() {
-  const { pending } = useFormStatus();
-  return (
-    <Button type="submit" size="lg" disabled={pending} className="w-full sm:w-auto">
-      {pending ? "Sending…" : "Send enquiry"}
-      {!pending && <ArrowRight />}
-    </Button>
-  );
-}
-
-function Field({
-  label,
-  htmlFor,
-  error,
-  children,
-}: {
-  label: string;
-  htmlFor: string;
-  error?: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="flex flex-col gap-2">
-      <label htmlFor={htmlFor} className="type-note text-muted">
-        {label}
-      </label>
-      {children}
-      {error && (
-        <span className="type-note text-[var(--brand-negative)]">{error}</span>
-      )}
-    </div>
-  );
-}
+const fieldClass =
+  "mt-3 block w-full border-0 border-b border-haze bg-transparent px-0 py-3 text-xl outline-none transition-colors placeholder:text-steel/50 focus:border-glass focus-visible:outline-none";
 
 export function ContactForm() {
-  const [state, formAction] = useActionState(submitEnquiry, initialContactState);
+  const [state, formAction, pending] = useActionState(sendEnquiry, initialState);
 
-  if (state.status === "success") {
+  if (state.status === "sent") {
     return (
-      <div role="status" className="corner-ticks border border-ink bg-paper p-10">
-        <p className="type-note text-muted">Enquiry logged</p>
-        <p className="type-title mt-4 text-2xl text-accent-deep">Received</p>
-        <p className="mt-4 max-w-sm text-sm leading-relaxed text-muted">{state.message}</p>
+      <div role="status" className="animate-fade-up border-t border-haze pt-10">
+        <p className="caps text-glass">Sent</p>
+        <p className="display mt-6 text-[clamp(2.5rem,5vw,4rem)]">Thanks — we’ll be in touch.</p>
       </div>
     );
   }
 
+  const v = state.values;
+
   return (
-    <form action={formAction} className="border border-ink bg-ground p-6 sm:p-8" noValidate>
-      <div className="type-note flex flex-wrap justify-between gap-x-6 gap-y-2 border-b border-line pb-3 text-muted">
-        <span>Enquiry form</span>
-        <span>Fields marked * required</span>
+    <form action={formAction} noValidate className="flex flex-col gap-10">
+      <div>
+        <label htmlFor="name" className="caps text-steel">
+          Name
+        </label>
+        <input
+          id="name"
+          name="name"
+          autoComplete="name"
+          required
+          defaultValue={v?.name}
+          aria-invalid={!!state.errors?.name}
+          aria-describedby={state.errors?.name ? "name-error" : undefined}
+          className={fieldClass}
+        />
+        {state.errors?.name && (
+          <p id="name-error" className="mt-2 text-sm text-glass">
+            {state.errors.name}
+          </p>
+        )}
       </div>
 
-      {/* Honeypot — hidden from people, irresistible to bots. */}
-      <div aria-hidden="true" className="absolute left-[-9999px] h-0 w-0 overflow-hidden">
-        <label htmlFor="website">Website</label>
-        <input id="website" type="text" name="website" tabIndex={-1} autoComplete="off" />
+      <div>
+        <label htmlFor="contact" className="caps text-steel">
+          Email or phone
+        </label>
+        <input
+          id="contact"
+          name="contact"
+          autoComplete="email"
+          required
+          defaultValue={v?.contact}
+          aria-invalid={!!state.errors?.contact}
+          aria-describedby={state.errors?.contact ? "contact-error" : undefined}
+          className={fieldClass}
+        />
+        {state.errors?.contact && (
+          <p id="contact-error" className="mt-2 text-sm text-glass">
+            {state.errors.contact}
+          </p>
+        )}
       </div>
 
-      <div className="mt-7 flex flex-col gap-5">
-        <div className="grid gap-5 sm:grid-cols-2">
-          <Field label="Name *" htmlFor="name" error={state.fieldErrors?.name}>
-            <input
-              id="name"
-              name="name"
-              required
-              autoComplete="name"
-              placeholder="Your name"
-              className={cn(inputClasses, state.fieldErrors?.name && "border-[var(--brand-negative)]")}
-            />
-          </Field>
-
-          <Field label="Work email *" htmlFor="email" error={state.fieldErrors?.email}>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              required
-              autoComplete="email"
-              placeholder="you@company.com"
-              className={cn(inputClasses, state.fieldErrors?.email && "border-[var(--brand-negative)]")}
-            />
-          </Field>
-
-          <Field label="Company" htmlFor="company">
-            <input
-              id="company"
-              name="company"
-              autoComplete="organization"
-              placeholder="Company name"
-              className={inputClasses}
-            />
-          </Field>
-
-          <Field label="Phone" htmlFor="phone">
-            <input
-              id="phone"
-              name="phone"
-              type="tel"
-              autoComplete="tel"
-              placeholder="+91"
-              className={inputClasses}
-            />
-          </Field>
+      <fieldset>
+        <legend className="caps text-steel">What do you need?</legend>
+        <div className="mt-5 flex flex-wrap gap-2">
+          {SERVICES.map((service) => (
+            <label key={service.slug} className="cursor-pointer">
+              <input
+                type="checkbox"
+                name="needs"
+                value={service.name}
+                defaultChecked={v?.needs.includes(service.name)}
+                className="peer sr-only"
+              />
+              <span className="block rounded-full border border-haze px-4 py-2 transition-colors peer-checked:border-ink peer-checked:bg-ink peer-checked:text-cloud peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-glass hover:border-ink">
+                {service.name}
+              </span>
+            </label>
+          ))}
         </div>
+      </fieldset>
 
-        <Field label="Monthly budget" htmlFor="budget">
-          <select
-            id="budget"
-            name="budget"
-            className={cn(inputClasses, "appearance-none")}
-            defaultValue=""
-          >
-            <option value="">Prefer not to say</option>
-            {BUDGETS.map((budget) => (
-              <option key={budget} value={budget}>
-                {budget}
-              </option>
-            ))}
-          </select>
-        </Field>
+      <div>
+        <label htmlFor="message" className="caps text-steel">
+          Message <span className="normal-case tracking-normal text-steel/70">(optional)</span>
+        </label>
+        <textarea
+          id="message"
+          name="message"
+          rows={3}
+          defaultValue={v?.message}
+          className={cn(fieldClass, "resize-none")}
+        />
+      </div>
 
-        <Field
-          label="What are you trying to fix? *"
-          htmlFor="message"
-          error={state.fieldErrors?.message}
+      {/* Honeypot for bots — hidden from people and screen readers. */}
+      <div aria-hidden="true" className="absolute -left-[9999px] h-0 overflow-hidden">
+        <label>
+          Website
+          <input name="website" tabIndex={-1} autoComplete="off" />
+        </label>
+      </div>
+
+      <div className="flex flex-wrap items-center gap-6">
+        <button
+          type="submit"
+          disabled={pending}
+          className="group inline-flex items-center gap-2.5 rounded-full bg-ink px-7 py-4 font-medium text-cloud transition-colors duration-300 hover:bg-glass disabled:opacity-60"
         >
-          <textarea
-            id="message"
-            name="message"
-            required
-            rows={5}
-            placeholder="Where the funnel is leaking, what you have tried, what success looks like."
-            className={cn(
-              inputClasses,
-              "resize-y",
-              state.fieldErrors?.message && "border-[var(--brand-negative)]",
-            )}
-          />
-        </Field>
-
-        {state.status === "error" && state.message && (
-          <p role="alert" className="text-sm text-[var(--brand-negative)]">
+          {pending ? "Sending…" : "Send"}
+          <Arrow className="group-hover:translate-x-1" />
+        </button>
+        {state.message && (
+          <p role="alert" className="text-glass">
             {state.message}
           </p>
         )}
-
-        <div className="mt-2 flex flex-col gap-4 border-t border-line pt-6 sm:flex-row sm:items-center sm:justify-between">
-          <SubmitButton />
-          <p className="type-note max-w-[22rem] leading-relaxed text-muted">
-            We reply within one working day. No mailing list, no follow-up sequence.
-          </p>
-        </div>
       </div>
     </form>
   );
